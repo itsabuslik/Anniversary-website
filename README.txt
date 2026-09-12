@@ -1,39 +1,12 @@
-UPDATED VERSION
+UPDATED V3
 
-WHAT WAS FIXED
-- Added your sound files into the project under /audio
-- Sounds now work for entering the memory well, ambience, nature layer, orb clicks, month open/back
-- Added a sound toggle button
-- Fixed sphere dragging so the sphere stays under the finger / cursor
-- Spheres are now properly round
-- Spheres are more pixel-textured and stylized
-- Added smooth free-flying trails behind the spheres
-- Kept the whole layout mobile-first
-
-AUDIO FILES USED
-- audio/ambient_main.mp3
-- audio/ambient_nature.mp3
-- audio/orb_click.mp3
-- audio/enter_well.mp3
-
-OPTIONAL FILES YOU CAN STILL ADD
-- background.jpg
-- avatar.jpg
-
-MAIN FILES
-- index.html
-- styles.css
-- script.js
-- README.txt
-- audio/*
-
-NOTE
-To change month text, edit monthData in script.js.
-To replace placeholder month blocks with your real photos/videos, edit the month-photo blocks in index.html or style them later.
-
-
-V2 BUG FIXES
-- Final ENTER MEMORY WELL button is pinned above the mobile safe area.
-- Keyboard is dismissed after the last chat reply so the CTA is always reachable.
-- Orb click no longer fires when a drag starts or ends.
-- A real tap produces one click only when opening a month.
+Changes:
+- Chat perspective swapped: the visitor/girlfriend's typed messages are white on the right.
+- Boyfriend's automatic messages are dark on the left.
+- Tree memories reduced from 6 bushes to 4.
+- Bush positions:
+  1: left 3%, top 34%, width 23%, height 22%
+  2: left 27%, top -6%, width 31%, height 28%
+  3: left 45%, top 20%, width 30%, height 25%
+  4: left 10%, top 15%, width 26%, height 18%
+- ENTER MEMORY WELL unlocks after all 4 tree memories are opened.

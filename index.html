@@ -47,6 +47,85 @@
   </form>
 </section>
 
+
+<section id="chatInterlude" class="chat-screen hidden-screen">
+  <div class="chat-background"></div>
+  <div class="chat-vignette"></div>
+
+  <header class="chat-header">
+    <button class="icon-btn back-btn" aria-label="Back">←</button>
+    <div class="profile-avatar">
+      <img src="avatar.jpg" alt="" onerror="this.remove()">
+      <span>♡</span>
+    </div>
+    <div class="profile-info">
+      <div class="profile-name">Slečna Kačenka</div>
+      <div class="profile-status">Active now</div>
+    </div>
+    <button class="icon-btn call-btn" aria-label="Call">⌕</button>
+    <button class="icon-btn video-btn" aria-label="Video">▢</button>
+  </header>
+
+  <main id="chatInterludeBody" class="chat-body">
+    <div id="interludeMessages" class="messages"></div>
+    <div id="interludeTyping" class="typing hidden"><span></span><span></span><span></span></div>
+  </main>
+
+  <form id="interludeForm" class="composer" autocomplete="off">
+    <button type="button" class="camera-btn" aria-label="Camera"><span class="camera-lens"></span></button>
+    <input id="interludeInput" type="text" placeholder="Message..." maxlength="250">
+    <button type="button" class="composer-icon">◌</button>
+    <button type="button" class="composer-icon">▧</button>
+    <button type="button" class="composer-icon">☺</button>
+    <button type="submit" id="interludeSendButton" class="send-btn">Send</button>
+  </form>
+</section>
+
+<section id="treeHub" class="tree-screen hidden-screen">
+  <canvas id="treeCanvas" class="well-canvas" aria-hidden="true"></canvas>
+  <div class="tree-green-vignette"></div>
+  <div class="tree-scanlines"></div>
+  <div class="tree-haze tree-haze-a"></div>
+  <div class="tree-haze tree-haze-b"></div>
+
+  <header class="tree-header">
+    <button id="soundToggleTree" class="sound-toggle" type="button">SOUND ON</button>
+  </header>
+
+  <div class="tree-stage">
+    <img class="tree-image" src="tree.png" alt="Green pixel tree">
+
+    <button class="bush bush-1" data-memory="01" aria-label="Memory 01"><span>01</span></button>
+    <button class="bush bush-2" data-memory="02" aria-label="Memory 02"><span>02</span></button>
+    <button class="bush bush-3" data-memory="03" aria-label="Memory 03"><span>03</span></button>
+    <button class="bush bush-4" data-memory="04" aria-label="Memory 04"><span>04</span></button>
+  </div>
+
+  <button id="enterWellFromTree" class="tree-enter-well hidden" type="button">ENTER MEMORY WELL</button>
+</section>
+
+<section id="treeMemoryPage" class="tree-memory-page hidden-screen">
+  <canvas id="treeMemoryCanvas" class="well-canvas" aria-hidden="true"></canvas>
+  <div class="tree-green-vignette"></div>
+  <div class="tree-scanlines"></div>
+  <div class="tree-haze tree-haze-a"></div>
+  <div class="tree-haze tree-haze-b"></div>
+
+  <div class="tree-memory-topbar">
+    <button id="backToTree" class="back-orbit" type="button">← MAIN SCREEN</button>
+    <button id="soundToggleTreeMemory" class="sound-toggle" type="button">SOUND ON</button>
+  </div>
+
+  <main class="tree-memory-main">
+    <div id="treeMemoryIndex" class="tree-memory-index">01</div>
+    <div class="tree-memory-grid">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </main>
+</section>
+
 <section id="orbitScreen" class="orbit-screen hidden-screen">
   <canvas id="wellCanvas" class="well-canvas" aria-hidden="true"></canvas>
   <canvas id="trailCanvas" class="trail-canvas" aria-hidden="true"></canvas>
@@ -62,25 +141,17 @@
   <div class="glitch-band g1"></div>
   <div class="glitch-band g2"></div>
 
-  <div class="ascii-field" aria-hidden="true">
-<pre>
-░▒▓█ MEMORY WELL / APRIL / MAY / JUNE / JULY / AUGUST / SEPTEMBER / ♥
-·  .  ·  six months in orbit  ·  drag • tap • explore  ·  010101
-</pre>
-  </div>
+  <div class="ascii-field" aria-hidden="true"><pre>
+░▒▓█  ·  ◌  .  ✦  .  ◌  ·  █▓▒░
+[]{}//\  010101  //\{}[]
+</pre></div>
 
   <header class="orbit-header">
-    <div class="mini-brand">YOU + ME</div>
-    <div class="orbit-controls">
-      <div class="mini-note">DRAG • TAP • EXPLORE</div>
-      <button id="soundToggle" class="sound-toggle" type="button">SOUND ON</button>
-    </div>
+    <button id="soundToggle" class="sound-toggle" type="button">SOUND ON</button>
   </header>
 
   <div class="title-wrap">
-    <div class="eyebrow">MEMORY WELL / MOBILE FIRST</div>
     <h1 id="orbitTitle" class="orbit-title" data-text="6 MONTHS">6 MONTHS</h1>
-    <p class="orbit-subtitle">Six months suspended in one place. Move them. Open them. See what survived.</p>
   </div>
 
   <div class="pixel-water" aria-hidden="true">
@@ -119,17 +190,13 @@
     </aside>
 
     <main class="month-main">
-      <div class="month-tag">MEMORY CAPSULE / <span id="monthTagIndex">01</span></div>
       <h2 id="monthTitle" class="month-title" data-text="APRIL">APRIL</h2>
-      <p id="monthDescription" class="month-description">Replace this with the real story of the month.</p>
 
       <div class="month-photo-grid">
-        <button class="month-photo photo-a"><span class="photo-code">A01</span><span>PHOTO / VIDEO</span></button>
-        <button class="month-photo photo-b"><span class="photo-code">B02</span><span>PHOTO / VIDEO</span></button>
-        <button class="month-photo photo-c"><span class="photo-code">TXT</span><span>TEXT / NOTE</span></button>
+        <div class="month-photo photo-a" aria-hidden="true"></div>
+        <div class="month-photo photo-b" aria-hidden="true"></div>
+        <div class="month-photo photo-c" aria-hidden="true"></div>
       </div>
-
-      <div class="memory-line"><span>✦</span><span id="memoryLineText">A place for one sentence you never want to forget.</span><span>✦</span></div>
     </main>
   </div>
 </section>
