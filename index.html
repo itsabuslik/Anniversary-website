@@ -1,119 +1,76 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Six Months With You</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<section id="chatIntro" class="chat-intro">
+  <div class="phone">
+    <header class="ig-header">
+      <span class="back">‹</span>
+      <div class="avatar">♡</div>
+      <div class="profile"><b>our.first.chat</b><small>Active now</small></div>
+      <span>☎︎</span><span>◯</span>
+    </header>
 
-  <header class="topbar">
-    <div class="logo">YOU + ME</div>
-    <nav>
-      <a href="#story">Story</a>
-      <a href="#memories">Memories</a>
-      <a href="#film">Film</a>
-    </nav>
-  </header>
+    <div class="chat-label">OUR FIRST CONVERSATION</div>
+    <div id="messages" class="messages"></div>
 
-  <main>
-    <section class="hero">
-      <div class="grain"></div>
+    <div id="typing" class="typing hidden"><i></i><i></i><i></i></div>
 
-      <div class="hero-content reveal">
-        <p class="eyebrow">OUR FIRST SIX MONTHS</p>
-        <h1>182<br>DAYS</h1>
-        <p class="hero-copy">
-          Six months of memories, strange conversations,
-          beautiful moments and one story I would never trade.
-        </p>
+    <form id="messageForm" class="composer">
+      <span class="camera">◎</span>
+      <input id="messageInput" placeholder="Message..." autocomplete="off">
+      <button>Send</button>
+    </form>
+    <div id="hint" class="hint"></div>
+  </div>
+</section>
+
+<div id="mainSite" class="main-site locked">
+  <nav class="nav"><b>YOU + ME</b><a href="#story">Story</a><a href="#film">Film</a></nav>
+
+  <section class="hero reveal">
+    <p>OUR FIRST SIX MONTHS</p>
+    <h1>182<br>DAYS</h1>
+    <span>Six months of memories, conversations and one story I would never trade.</span>
+  </section>
+
+  <section id="story" class="section">
+    <p class="label reveal">01 / OUR STORY</p>
+    <div class="story-grid">
+      <div class="photo reveal">YOUR PHOTO</div>
+      <div class="story-text reveal">
+        <h2>Where it started.</h2>
+        <p>It started like any ordinary day. Neither of us knew that something important was beginning.</p>
+        <p>One conversation became another, and somehow half a year had already passed.</p>
       </div>
+    </div>
+  </section>
 
-      <a class="scroll-link" href="#story">SCROLL ↓</a>
-    </section>
+  <section class="section">
+    <p class="label reveal">02 / MEMORIES</p>
+    <h2 class="huge reveal">THREE<br>MOMENTS</h2>
+    <div class="cards">
+      <article class="card reveal" data-note="Replace this with your first memory."><b>001</b><h3>First Day</h3><p>Tap to reveal</p><div></div></article>
+      <article class="card reveal" data-note="Replace this with a memory about your place."><b>002</b><h3>Our Place</h3><p>Tap to reveal</p><div></div></article>
+      <article class="card reveal" data-note="Replace this with one tiny moment you still remember."><b>003</b><h3>That Moment</h3><p>Tap to reveal</p><div></div></article>
+    </div>
+  </section>
 
-    <section id="story" class="section story">
-      <div class="section-label reveal">01 / OUR STORY</div>
+  <section class="quote reveal">“Half a year isn't very long. <span>But somehow you already exist in so many of my memories.</span>”</section>
 
-      <div class="story-grid">
-        <div class="photo-frame reveal">
-          <div class="photo-placeholder">
-            <span>YOUR PHOTO</span>
-          </div>
-        </div>
+  <section id="film" class="section film">
+    <p class="label reveal">03 / ONE MORE THING</p>
+    <h2 class="huge reveal">PRESS<br>PLAY</h2>
+    <button id="playButton" class="play reveal">PLAY</button>
+    <p id="finalMessage" class="final">This is where your film can begin.</p>
+  </section>
+</div>
 
-        <div class="story-copy reveal">
-          <h2>Where it started.</h2>
-          <p>
-            It started like any ordinary day. Neither of us knew
-            that something important was beginning.
-          </p>
-          <p>
-            One conversation became another, one meeting became another,
-            and somehow half a year had already passed.
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <section id="memories" class="section memories">
-      <div class="section-label reveal">02 / MEMORIES</div>
-      <h2 class="big-title reveal">THREE<br>MOMENTS</h2>
-
-      <div class="memory-grid">
-        <article class="memory-card reveal" data-note="Write your first memory here.">
-          <span class="memory-number">001</span>
-          <h3>First Day</h3>
-          <p>Click to reveal a note.</p>
-          <div class="hidden-note"></div>
-        </article>
-
-        <article class="memory-card reveal" data-note="Write something about your favourite place together.">
-          <span class="memory-number">002</span>
-          <h3>Our Place</h3>
-          <p>Click to reveal a note.</p>
-          <div class="hidden-note"></div>
-        </article>
-
-        <article class="memory-card reveal" data-note="Write one small thing she did that you still remember.">
-          <span class="memory-number">003</span>
-          <h3>That Moment</h3>
-          <p>Click to reveal a note.</p>
-          <div class="hidden-note"></div>
-        </article>
-      </div>
-    </section>
-
-    <section class="quote-section">
-      <p class="quote reveal">
-        “Half a year isn't very long.
-        <span>But somehow you already exist in so many of my memories.</span>”
-      </p>
-    </section>
-
-    <section id="film" class="section film">
-      <div class="section-label reveal">03 / ONE MORE THING</div>
-      <h2 class="big-title reveal">PRESS<br>PLAY</h2>
-      <p class="film-copy reveal">
-        There are some things that are easier to show than to write.
-      </p>
-
-      <button id="playButton" class="play-button reveal" type="button">
-        PLAY
-      </button>
-
-      <div id="finalMessage" class="final-message">
-        This is where your film can begin.
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <span>MADE FOR YOU</span>
-    <span>2026</span>
-  </footer>
-
-  <script src="script.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
