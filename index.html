@@ -3,31 +3,56 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Six Months With You</title>
+  <title>Our Story</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<section id="chatIntro" class="chat-intro">
-  <div class="phone">
-    <header class="ig-header">
-      <span class="back">‹</span>
-      <div class="avatar">♡</div>
-      <div class="profile"><b>our.first.chat</b><small>Active now</small></div>
-      <span>☎︎</span><span>◯</span>
-    </header>
 
-    <div class="chat-label">OUR FIRST CONVERSATION</div>
+<section id="chatIntro" class="chat-screen">
+  <div class="chat-background"></div>
+  <div class="chat-overlay"></div>
+
+  <header class="chat-header">
+    <button class="back-btn" aria-label="Back">←</button>
+
+    <div class="avatar">
+      <img src="avatar.jpg" alt="" onerror="this.style.display='none'">
+      <span>♡</span>
+    </div>
+
+    <div class="chat-person">
+      <div class="chat-name">Slečna Kačenka</div>
+    </div>
+
+    <button class="header-icon" aria-label="Call">⌕</button>
+    <button class="header-icon video-icon" aria-label="Video">▢</button>
+  </header>
+
+  <div class="chat-body">
+    <div class="date-separator">7. NOV., 16:10</div>
+
+    <div class="story-reply-info">
+      You replied to their story
+      <div class="story-preview">Story unavailable</div>
+    </div>
+
     <div id="messages" class="messages"></div>
 
-    <div id="typing" class="typing hidden"><i></i><i></i><i></i></div>
+    <div id="typing" class="typing hidden">
+      <span></span><span></span><span></span>
+    </div>
 
-    <form id="messageForm" class="composer">
-      <span class="camera">◎</span>
-      <input id="messageInput" placeholder="Message..." autocomplete="off">
-      <button>Send</button>
-    </form>
     <div id="hint" class="hint"></div>
   </div>
+
+  <form id="messageForm" class="composer" autocomplete="off">
+    <button type="button" class="circle camera">●</button>
+    <input id="messageInput" type="text" placeholder="Message..." maxlength="250">
+    <button type="button" class="composer-icon">♩</button>
+    <button type="button" class="composer-icon">▧</button>
+    <button type="button" class="composer-icon">☺</button>
+    <button type="submit" class="send-btn">Send</button>
+  </form>
 </section>
 
 <div id="mainSite" class="main-site locked">

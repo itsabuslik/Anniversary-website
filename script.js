@@ -1,27 +1,176 @@
-// Replace these placeholders with your real first conversation.
+// =============================
+// EDIT YOUR REAL CHAT HERE
+// =============================
 const conversation = [
-  { opening:"Hey :)", expected:["hey","hi","hello","hii"], reply:"I wasn't sure if you would answer.", hint:"Try the answer from our real first chat." },
-  { expected:["of course","of course i would","why wouldnt i","why wouldn't i","i would"], reply:"Good. Because I actually wanted to ask you something.", hint:"Think about what you wrote next." },
-  { expected:["what","what is it","ask","go ahead","what did you want to ask"], reply:"And somehow that tiny conversation became all of this.", hint:"A short curious reply should work." }
+  {
+    opening: "🔥🔥 ja měl 6 bodu z use of english, myslel jsem že přece jsem znalec a dopadnu dobře B)",
+    expected: [
+      "tak bylo to tezky ale urcite das lingvistickou olympiadu jestli tam pujdes",
+      "tak bylo to tezky, ale urcite das lingvistickou olympiadu, jestli tam pujdes"
+    ],
+    reply: "Odkud víš :0? Minulý rok jo, to bylo dobře :3",
+    hint: "Try writing the reply from our real conversation."
+  },
+  {
+    expected: [
+      "vim vsechno",
+      "protoze jsem genius",
+      "protoze vim",
+      "nevim"
+    ],
+    reply: "And that was only the beginning.",
+    hint: "Replace this placeholder with the real next answer in script.js."
+  }
 ];
 
-const $=s=>document.querySelector(s);
-const messages=$("#messages"), form=$("#messageForm"), input=$("#messageInput"),
-typing=$("#typing"), hint=$("#hint"), chat=$("#chatIntro"), main=$("#mainSite");
-let step=0, busy=false, done=false;
+const $ = s => document.querySelector(s);
+const messages = $("#messages");
+const form = $("#messageForm");
+const input = $("#messageInput");
+const typing = $("#typing");
+const hint = $("#hint");
+const chat = $("#chatIntro");
+const main = $("#mainSite");
 
-function norm(s){return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[’']/g,"").replace(/[^a-z0-9\s]/g," ").replace(/\s+/g," ").trim()}
-function score(a,b){a=norm(a);b=norm(b);if(a===b)return 1;if(!a||!b)return 0;if(a.includes(b)||b.includes(a))return .9;const A=new Set(a.split(" ")),B=new Set(b.split(" ")),all=new Set([...A,...B]);let n=0;all.forEach(w=>{if(A.has(w)&&B.has(w))n++});return n/all.size}
-function accepted(text,list){return list.some(x=>score(text,x)>=.72)}
-function add(text,side){const r=document.createElement("div");r.className="row "+side;const b=document.createElement("div");b.className="bubble";b.textContent=text;r.appendChild(b);messages.appendChild(r);messages.scrollTop=messages.scrollHeight}
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-async function reply(text){busy=true;input.disabled=true;typing.classList.remove("hidden");await sleep(850);typing.classList.add("hidden");add(text,"them");input.disabled=false;busy=false;input.focus()}
-function finish(){done=true;form.style.display="none";hint.textContent="";const b=document.createElement("button");b.className="continue";b.textContent="CONTINUE OUR STORY";b.onclick=()=>{chat.style.display="none";main.classList.remove("locked");document.querySelectorAll(".reveal").forEach(x=>observer.observe(x));window.scrollTo(0,0)};messages.appendChild(b);messages.scrollTop=messages.scrollHeight}
+let step = 0;
+let busy = false;
+let done = false;
 
-form.addEventListener("submit",async e=>{e.preventDefault();if(busy||done)return;const text=input.value.trim();if(!text)return;const c=conversation[step];if(!accepted(text,c.expected)){hint.textContent=c.hint||"That's not quite how it went.";return}hint.textContent="";input.value="";add(text,"me");await reply(c.reply);step++;if(step>=conversation.length)finish()});
+function normalize(s){
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .replace(/[’']/g,"")
+    .replace(/[^a-z0-9\s]/g," ")
+    .replace(/\s+/g," ")
+    .trim();
+}
 
-window.addEventListener("DOMContentLoaded",async()=>{await sleep(450);if(conversation[0].opening)await reply(conversation[0].opening);input.focus()});
+function similarity(a,b){
+  a = normalize(a);
+  b = normalize(b);
 
-const observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("visible")}),{threshold:.15});
-document.querySelectorAll(".card").forEach(c=>c.onclick=()=>{c.querySelector("div").textContent=c.dataset.note;c.classList.toggle("open")});
-$("#playButton").onclick=()=>$("#finalMessage").classList.toggle("show");
+  if(a === b) return 1;
+  if(!a || !b) return 0;
+  if(a.includes(b) || b.includes(a)) return .92;
+
+  const A = new Set(a.split(" "));
+  const B = new Set(b.split(" "));
+  const all = new Set([...A,...B]);
+
+  let common = 0;
+  all.forEach(word => {
+    if(A.has(word) && B.has(word)) common++;
+  });
+
+  return common / all.size;
+}
+
+function accepted(text, expected){
+  return expected.some(answer => similarity(text, answer) >= .72);
+}
+
+function addMessage(text, side){
+  const row = document.createElement("div");
+  row.className = "row " + side;
+
+  if(side === "them"){
+    const avatar = document.createElement("div");
+    avatar.className = "mini-avatar";
+    row.appendChild(avatar);
+  }
+
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
+  bubble.textContent = text;
+
+  row.appendChild(bubble);
+  messages.appendChild(row);
+  document.querySelector(".chat-body").scrollTop =
+    document.querySelector(".chat-body").scrollHeight;
+}
+
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+async function autoReply(text){
+  busy = true;
+  input.disabled = true;
+  typing.classList.remove("hidden");
+
+  await sleep(800);
+
+  typing.classList.add("hidden");
+  addMessage(text, "me");
+
+  input.disabled = false;
+  input.focus();
+  busy = false;
+}
+
+function finish(){
+  done = true;
+  form.style.display = "none";
+  hint.textContent = "";
+
+  const button = document.createElement("button");
+  button.className = "continue";
+  button.textContent = "CONTINUE OUR STORY";
+
+  button.onclick = () => {
+    chat.style.display = "none";
+    main.classList.remove("locked");
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+    window.scrollTo(0,0);
+  };
+
+  messages.appendChild(button);
+}
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if(busy || done) return;
+
+  const text = input.value.trim();
+  if(!text) return;
+
+  const current = conversation[step];
+
+  if(!accepted(text, current.expected)){
+    hint.textContent = current.hint || "That's not quite how it went.";
+    return;
+  }
+
+  hint.textContent = "";
+  input.value = "";
+  addMessage(text, "them");
+
+  await autoReply(current.reply);
+
+  step++;
+  if(step >= conversation.length) finish();
+});
+
+window.addEventListener("DOMContentLoaded", async () => {
+  await sleep(450);
+  if(conversation[0].opening){
+    addMessage(conversation[0].opening, "me");
+  }
+  input.focus();
+});
+
+// MAIN SITE
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) entry.target.classList.add("visible");
+  });
+}, {threshold:.15});
+
+document.querySelectorAll(".card").forEach(card => {
+  card.onclick = () => {
+    card.querySelector("div").textContent = card.dataset.note;
+    card.classList.toggle("open");
+  };
+});
+
+$("#playButton").onclick = () => $("#finalMessage").classList.toggle("show");
