@@ -36,10 +36,28 @@ async function sendPremadeReply(text){
   typing.classList.add('hidden'); addMessage(text,'me'); input.disabled=false; sendButton.disabled=false; busy=false; input.focus();
 }
 function finishConversation(){
-  finished=true; form.style.display='none';
-  const btn=document.createElement('button'); btn.className='continue'; btn.textContent='ENTER MEMORY WELL';
-  btn.addEventListener('click', enterMemoryWell); messages.appendChild(btn);
-  requestAnimationFrame(()=>chatBody.scrollTo({top:chatBody.scrollHeight,behavior:'smooth'}));
+  finished=true;
+
+  // Important on mobile: dismiss the keyboard before removing the composer.
+  // Otherwise the visual viewport can stay shortened and hide the final CTA.
+  input.blur();
+  form.style.display='none';
+  chatBody.classList.add('final-state');
+
+  const wrap=document.createElement('div');
+  wrap.className='final-continue-wrap';
+
+  const btn=document.createElement('button');
+  btn.className='continue';
+  btn.textContent='ENTER MEMORY WELL';
+  btn.addEventListener('click', enterMemoryWell);
+
+  wrap.appendChild(btn);
+  chatIntro.appendChild(wrap);
+
+  requestAnimationFrame(()=>{
+    chatBody.scrollTo({top:chatBody.scrollHeight,behavior:'smooth'});
+  });
 }
 form.addEventListener('submit', async e=>{
   e.preventDefault(); if(busy||finished) return; const text=input.value.trim(); if(!text) return;
@@ -195,7 +213,8 @@ function initializeOrbit(){
     setPos();
     el.addEventListener('pointerdown', async e=>{
       await unlockAudio();
-      playOne(sounds.orbClick,.24,true);
+      // Do not play the click on pointer-down: a drag begins here too.
+      // The click is played once only when a real tap opens a month.
       const sr=rectOf();
       const px=e.clientX-sr.left, py=e.clientY-sr.top;
       o.dragging=true; o.pointerId=e.pointerId; o.offsetX=px-o.x; o.offsetY=py-o.y; o.moved=false; o.startX=px; o.startY=py; o.lastMove={x:px,y:py,t:performance.now()};
@@ -212,7 +231,18 @@ function initializeOrbit(){
       const now=performance.now(); let speed=0; if(o.lastMove){ const dt=Math.max(16, now-o.lastMove.t); speed=Math.hypot(px-o.lastMove.x,py-o.lastMove.y)/(dt/16); } o.lastMove={x:px,y:py,t:now};
       setDragTone(true,speed);
     });
-    function release(e){ if(o.pointerId!==e.pointerId) return; o.dragging=false; el.classList.remove('dragging'); try{el.releasePointerCapture(e.pointerId);}catch{} o.pointerId=null; setDragTone(false); if(!o.moved){ playOne(sounds.orbClick,.40,true); openMonthPage(o.month); } else { playOne(sounds.orbClick,.18,true);} }
+    function release(e){
+      if(o.pointerId!==e.pointerId) return;
+      o.dragging=false;
+      el.classList.remove('dragging');
+      try{el.releasePointerCapture(e.pointerId);}catch{}
+      o.pointerId=null;
+      setDragTone(false);
+
+      // Dragging is intentionally silent apart from the subtle generated drag tone.
+      // A tap opens the month; openMonthPage() plays exactly one click.
+      if(!o.moved) openMonthPage(o.month);
+    }
     el.addEventListener('pointerup',release); el.addEventListener('pointercancel',release);
     o.setPos=setPos; orbitObjects.push(o);
   });

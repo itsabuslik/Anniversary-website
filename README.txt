@@ -30,3 +30,10 @@ MAIN FILES
 NOTE
 To change month text, edit monthData in script.js.
 To replace placeholder month blocks with your real photos/videos, edit the month-photo blocks in index.html or style them later.
+
+
+V2 BUG FIXES
+- Final ENTER MEMORY WELL button is pinned above the mobile safe area.
+- Keyboard is dismissed after the last chat reply so the CTA is always reachable.
+- Orb click no longer fires when a drag starts or ends.
+- A real tap produces one click only when opening a month.
