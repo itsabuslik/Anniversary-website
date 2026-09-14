@@ -25,6 +25,7 @@
     </div>
     <button class="icon-btn call-btn" aria-label="Call">⌕</button>
     <button class="icon-btn video-btn" aria-label="Video">▢</button>
+    <button id="skipChatIntro" class="skip-chat" type="button">SKIP</button>
   </header>
 
   <main id="chatBody" class="chat-body">
@@ -64,6 +65,7 @@
     </div>
     <button class="icon-btn call-btn" aria-label="Call">⌕</button>
     <button class="icon-btn video-btn" aria-label="Video">▢</button>
+    <button id="skipChatInterlude" class="skip-chat" type="button">SKIP</button>
   </header>
 
   <main id="chatInterludeBody" class="chat-body">
@@ -118,9 +120,14 @@
 
   <main class="tree-memory-main">
     <div id="treeMemoryIndex" class="tree-memory-index">01</div>
-    <div class="tree-memory-grid">
-      <div></div>
-      <div></div>
+    <div id="treeMemoryContent" class="tree-memory-grid">
+      <div class="memory-text-dialogue">
+        <div class="memory-label">TEXT-DIALOGUE</div>
+        <div class="memory-copy">A fragment of the conversation, preserved before the memory turns into something else.</div>
+      </div>
+      <div class="memory-image-slot hidden-memory-image">
+        <img src="memory01.jpg" alt="Handwritten memory note from March" loading="lazy">
+      </div>
       <div></div>
     </div>
   </main>
