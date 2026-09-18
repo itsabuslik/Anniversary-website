@@ -190,8 +190,11 @@ form.addEventListener('submit',async e=>{
   if(!typed) return;
   input.value='';
 
+  await unlockAudio();
+
   const current=conversation[step];
   const corrected=current?.expected||typed;
+  playOne(sounds.messageSend,.42,true);
   addMessage(corrected,'me',false);
 
   if(current?.reply) await sendPremadeReply(current.reply);
@@ -269,8 +272,11 @@ interludeForm.addEventListener('submit',async e=>{
   if(!typed) return;
   interludeInput.value='';
 
+  await unlockAudio();
+
   const current=secondConversation[secondStep];
   const corrected=current?.expected||typed;
+  playOne(sounds.messageSend,.42,true);
   addMessageTo(interludeMessages,interludeBody,corrected,'me',false);
 
   if(current?.replies?.length){
@@ -361,7 +367,8 @@ const sounds={
   ambientMain:new Audio('audio/ambient_main.mp3'),
   ambientNature:new Audio('audio/ambient_nature.mp3'),
   orbClick:new Audio('audio/orb_click.mp3'),
-  enterWell:new Audio('audio/enter_well.mp3')
+  enterWell:new Audio('audio/enter_well.mp3'),
+  messageSend:new Audio('audio/message_send.mp3')
 };
 for(const a of Object.values(sounds)){a.preload='auto';}
 sounds.ambientMain.loop=true;
