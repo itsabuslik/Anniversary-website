@@ -97,6 +97,20 @@ let treeAtmosphereStarted=false;
 let treeMemoryAtmosphereStarted=false;
 const visitedMemories=new Set();
 
+const memoryPhotoData={
+  "01":{
+    src:"photos/memory01_feature.jpg",
+    caption:"click on it",
+    text:"To byl začátek. Hodně cítů- měl jsem radost se s tebou psát. Přemýšlel jsem o tobě i když jsme se nepsali, s velkou radosti jsem se podíval na Dinner in America. Radiace štěstí a velká chuť k životu přinutila mě zapomenout o tom, co je úzkost."
+  }
+};
+
+const memoryFeatureMount=$("#memoryFeatureMount");
+const memoryPhotoOverlay=$("#memoryPhotoOverlay");
+const memoryPhotoLarge=$("#memoryPhotoLarge");
+const memoryPhotoText=$("#memoryPhotoText");
+const memoryPhotoClose=$("#memoryPhotoClose");
+
 function currentTime(){
   return new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }
@@ -149,7 +163,6 @@ async function sendPremadeReply(text){
   input.disabled=false;
   sendButton.disabled=false;
   busy=false;
-  input.focus();
 }
 
 function finishConversation(){
@@ -209,7 +222,6 @@ form.addEventListener('submit',async e=>{
 window.addEventListener('DOMContentLoaded',async()=>{
   await sleep(350);
   if(conversation[0]?.opening) addMessage(conversation[0].opening,'them',true);
-  input.focus();
   syncSoundButtons();
 });
 
@@ -240,7 +252,6 @@ async function startSecondChat(){
     addMessageTo(interludeMessages,interludeBody,secondConversation[0].opening,'them',true);
   }
 
-  setTimeout(()=>interludeInput.focus(),120);
 }
 
 async function sendSecondReplies(replies){
@@ -261,7 +272,6 @@ async function sendSecondReplies(replies){
   interludeInput.disabled=false;
   interludeSendButton.disabled=false;
   secondBusy=false;
-  interludeInput.focus();
 }
 
 interludeForm.addEventListener('submit',async e=>{
@@ -331,6 +341,55 @@ $$('.bush',treeHub).forEach(btn=>{
   });
 });
 
+function renderMemoryFeature(memory){
+  memoryFeatureMount.innerHTML='';
+  const data=memoryPhotoData[memory];
+  if(!data) return;
+
+  const card=document.createElement('figure');
+  card.className='memory-feature-card';
+
+  const button=document.createElement('button');
+  button.className='memory-feature-photo';
+  button.type='button';
+  button.setAttribute('aria-label','Open photo');
+
+  const img=document.createElement('img');
+  img.src=data.src;
+  img.alt='';
+  button.appendChild(img);
+  button.addEventListener('click',()=>openMemoryPhoto(data));
+
+  const caption=document.createElement('figcaption');
+  caption.className='memory-feature-caption';
+  caption.textContent=data.caption;
+
+  card.append(button,caption);
+  memoryFeatureMount.appendChild(card);
+}
+
+function openMemoryPhoto(data){
+  memoryPhotoLarge.src=data.src;
+  memoryPhotoText.textContent=data.text;
+  memoryPhotoOverlay.classList.remove('hidden');
+  memoryPhotoOverlay.setAttribute('aria-hidden','false');
+  document.body.classList.add('memory-overlay-open');
+}
+
+function closeMemoryPhoto(){
+  memoryPhotoOverlay.classList.add('hidden');
+  memoryPhotoOverlay.setAttribute('aria-hidden','true');
+  document.body.classList.remove('memory-overlay-open');
+}
+
+memoryPhotoClose.addEventListener('click',closeMemoryPhoto);
+memoryPhotoOverlay.addEventListener('click',e=>{
+  if(e.target===memoryPhotoOverlay) closeMemoryPhoto();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'&&!memoryPhotoOverlay.classList.contains('hidden')) closeMemoryPhoto();
+});
+
 function updateTreeCompletion(){
   if(visitedMemories.size>=4){
     enterWellFromTree.classList.remove('hidden');
@@ -339,6 +398,8 @@ function updateTreeCompletion(){
 
 function openTreeMemory(memory){
   treeMemoryIndex.textContent=memory;
+  treeMemoryPage.dataset.memory=memory;
+  renderMemoryFeature(memory);
   treeHub.classList.add('hidden-screen');
   treeMemoryPage.classList.remove('hidden-screen');
   treeMemoryPage.scrollTop=0;
@@ -350,6 +411,7 @@ function openTreeMemory(memory){
 }
 
 $('#backToTree').addEventListener('click',async()=>{
+  closeMemoryPhoto();
   await unlockAudio();
   playOne(sounds.orbClick,.24,true);
   treeMemoryPage.classList.add('hidden-screen');

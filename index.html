@@ -43,7 +43,7 @@
     <button type="button" class="composer-icon">◌</button>
     <button type="button" class="composer-icon">▧</button>
     <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="sendButton" class="send-btn">Send</button>
+    <button type="submit" id="sendButton" class="send-btn" aria-label="Send"><img src="photos/send_button.png" alt=""></button>
   </form>
 </section>
 
@@ -77,7 +77,7 @@
     <button type="button" class="composer-icon">◌</button>
     <button type="button" class="composer-icon">▧</button>
     <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="interludeSendButton" class="send-btn">Send</button>
+    <button type="submit" id="interludeSendButton" class="send-btn" aria-label="Send"><img src="photos/send_button.png" alt=""></button>
   </form>
 </section>
 
@@ -93,7 +93,7 @@
   </header>
 
   <div class="tree-stage">
-    <img class="tree-image" src="tree.png" alt="Green pixel tree">
+    <img class="tree-image" src="photos/tree.png" alt="Green pixel tree">
 
     <button class="bush bush-1" data-memory="01" aria-label="Memory 01"><span>01</span></button>
     <button class="bush bush-2" data-memory="02" aria-label="Memory 02"><span>02</span></button>
@@ -117,7 +117,15 @@
   </div>
 
   <main class="tree-memory-main">
+    <div class="tree-memory-photo-wall" aria-hidden="true">
+      <img src="photos/memory01_a.png" alt="">
+      <img src="photos/memory01_b.png" alt="">
+      <img src="photos/memory01_c.png" alt="">
+      <img src="photos/memory01_d.png" alt="">
+      <img src="photos/memory01_e.png" alt="">
+    </div>
     <div id="treeMemoryIndex" class="tree-memory-index">01</div>
+    <div id="memoryFeatureMount" class="memory-feature-mount"></div>
     <div class="tree-memory-grid">
       <div></div>
       <div></div>
@@ -125,6 +133,14 @@
     </div>
   </main>
 </section>
+
+<div id="memoryPhotoOverlay" class="memory-photo-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true">
+  <button id="memoryPhotoClose" class="memory-photo-close" type="button" aria-label="Close">×</button>
+  <figure class="memory-photo-dialog">
+    <img id="memoryPhotoLarge" class="memory-photo-large" src="" alt="">
+    <figcaption id="memoryPhotoText" class="memory-photo-text"></figcaption>
+  </figure>
+</div>
 
 <section id="orbitScreen" class="orbit-screen hidden-screen">
   <canvas id="wellCanvas" class="well-canvas" aria-hidden="true"></canvas>
