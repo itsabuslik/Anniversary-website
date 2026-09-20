@@ -414,26 +414,52 @@ const monthStoryData={
   }
 
   ,september:{
-    mode:"stack",
+    mode:"dimension",
     introTitle:"Tady jsme",
     blinkPhotos:[
-      "photos/september_01.jpg",
-      "photos/september_02.jpg",
-      "photos/september_03.jpg",
-      "photos/september_04.jpg",
-      "photos/september_05.jpg",
-      "photos/september_06.jpg",
-      "photos/september_07.jpg"
+      "photos/memory01_feature.jpg",
+      "photos/memory02_feature.jpg",
+      "photos/memory03_feature.jpg",
+      "photos/memory04_feature.jpg",
+      "photos/april_01.jpg",
+      "photos/april_02.jpg",
+      "photos/april_03.jpg",
+      "photos/april_04.jpg",
+      "photos/april_05.jpg",
+      "photos/april_06.jpg",
+      "photos/april_07.jpg",
+      "photos/may_01.jpg",
+      "photos/may_02.jpg",
+      "photos/may_03.jpg",
+      "photos/may_04.jpg",
+      "photos/may_05.jpg",
+      "photos/may_06.jpg",
+      "photos/may_07.jpg",
+      "photos/may_08.jpg",
+      "photos/june_01.jpg",
+      "photos/june_02.jpg",
+      "photos/june_03.jpg",
+      "photos/june_04.jpg",
+      "photos/june_05.jpg",
+      "photos/june_06.jpg",
+      "photos/june_07.jpg",
+      "photos/july_01.webp",
+      "photos/july_02.jpg",
+      "photos/july_03.webp",
+      "photos/july_04.jpg",
+      "photos/july_05.jpg",
+      "photos/july_06.jpg",
+      "photos/july_07.jpg",
+      "photos/july_08.jpg",
+      "photos/august_01.jpg",
+      "photos/august_02.jpg",
+      "photos/august_03.jpg",
+      "photos/august_04.webp",
+      "photos/august_05.jpg",
+      "photos/august_06.jpg",
+      "photos/august_07.jpg"
     ],
-    sections:[
-      {date:"",title:"",photos:[{image:"photos/september_01.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_02.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_03.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_04.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_05.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_06.jpg",caption:"",text:""}]},
-      {date:"",title:"",photos:[{image:"photos/september_07.jpg",caption:"",text:""}]}
-    ]
+    sections:[]
   }
 
 };
@@ -1527,6 +1553,7 @@ const septemberIntroPhoto=$('#septemberIntroPhoto');
 const septemberIntroTitle=$('#septemberIntroTitle');
 const septemberAsciiLayer=$('#septemberAsciiLayer');
 const septemberIntroAscii=$('#septemberIntroAscii');
+const septemberDimension=$('#septemberDimension');
 const septemberEpilogue=$('#septemberEpilogue');
 const septemberTicker=$('#septemberTicker');
 const septemberEndingCopy=$('.september-ending-copy');
@@ -1544,6 +1571,24 @@ let monthIntroToken=0;
 const SEPTEMBER_ASCII_POOL=["<>","//","\\","[]","{}","()","::",";;","++","--","==","~~","..","░▒","▒▓","▓░","/\\","\\/","|:|","0:0","^_^","*:*"];
 
 let septemberEndingObserver=null;
+
+function updateSeptemberEndingVisibility(){
+  if(!septemberEpilogue || monthPage.dataset.month!=='september' || septemberEpilogue.classList.contains('hidden')) return;
+  const limit=window.innerHeight*.88;
+  [septemberTicker,septemberEndingCopy,septemberShopGate].filter(Boolean).forEach(el=>{
+    if(el.getBoundingClientRect().top<limit) el.classList.add('is-visible');
+  });
+}
+monthPage.addEventListener('scroll',updateSeptemberEndingVisibility,{passive:true});
+window.addEventListener('resize',updateSeptemberEndingVisibility);
+
+function setSeptemberDimension(active){
+  if(!septemberDimension) return;
+  septemberDimension.classList.toggle('hidden',!active);
+  if(active){
+    septemberDimension.scrollTop=0;
+  }
+}
 
 function setSeptemberEpilogue(active){
   if(!septemberEpilogue) return;
@@ -1571,6 +1616,7 @@ function setSeptemberEpilogue(active){
     septemberEndingCopy?.classList.add('is-visible');
     septemberShopGate?.classList.add('is-visible');
   }
+  requestAnimationFrame(updateSeptemberEndingVisibility);
 }
 
 function updateGiftShopTotal(){
@@ -1616,17 +1662,21 @@ document.addEventListener('keydown',e=>{
 
 function renderMonthSlides(key){
   const story=monthStoryData[key];
-  currentMonthSlides=story?.sections?.length?story.sections:[
+  currentMonthMode=story?.mode==='dimension'?'dimension':(story?.mode==='stack'?'stack':'carousel');
+  currentMonthSlides=currentMonthMode==='dimension'?[]:(story?.sections?.length?story.sections:[
     {date:"",title:"",photos:[]},
     {date:"",title:"",photos:[]},
     {date:"",title:"",photos:[]}
-  ];
+  ]);
   currentMonthSlide=0;
-  currentMonthMode=story?.mode==='stack'?'stack':'carousel';
 
   monthTrack.innerHTML="";
   monthTrack.classList.toggle('is-stack',currentMonthMode==='stack');
   monthPage.classList.toggle('month-page-september',key==='september');
+  if(currentMonthMode==='dimension'){
+    updateMonthSlider();
+    return;
+  }
 
   if(story?.bg && currentMonthMode!=='stack'){
     monthBackground.innerHTML=`<img src="${story.bg}" alt="">`;
@@ -1724,7 +1774,7 @@ function renderMonthSlides(key){
 }
 
 function updateMonthSlider(){
-  if(currentMonthMode==='stack'){
+  if(currentMonthMode==='stack'||currentMonthMode==='dimension'){
     monthTrack.style.transform='none';
     monthPrev.classList.add('hidden');
     monthNext.classList.add('hidden');
@@ -1771,10 +1821,20 @@ function hideSeptemberIntro(immediate=false){
   if(immediate && septemberIntroAscii) septemberIntroAscii.innerHTML='';
 }
 
+function preloadSeptemberBlinkPhotos(story){
+  if(!story?.blinkPhotos?.length) return;
+  story.blinkPhotos.forEach(src=>{
+    const img=new Image();
+    img.decoding='async';
+    img.src=src;
+  });
+}
+
 async function runSeptemberIntro(story){
   if(!story?.blinkPhotos?.length || !septemberIntroOverlay) return;
   const token=++monthIntroToken;
   const sequence=[1000,800,600,500,400,300,220,160,120,100,90,90,90,90,90];
+  preloadSeptemberBlinkPhotos(story);
   buildSeptemberAscii(septemberIntroAscii,22);
   const photos=story.blinkPhotos.slice();
   let last='';
@@ -1807,7 +1867,7 @@ async function runSeptemberIntro(story){
 
   if(token!==monthIntroToken || monthPage.dataset.month!=='september') return hideSeptemberIntro(true);
   septemberIntroTitle.classList.add('show');
-  await sleep(1250);
+  await sleep(1500);
   if(token!==monthIntroToken || monthPage.dataset.month!=='september') return hideSeptemberIntro(true);
   septemberIntroOverlay.classList.add('fade-out');
   await sleep(620);
@@ -1850,6 +1910,7 @@ async function openMonthPage(key){
   hideSeptemberIntro(true);
   monthPage.dataset.month=key;
   monthPage.classList.toggle('month-page-september',key==='september');
+  setSeptemberDimension(key==='september');
   setSeptemberEpilogue(key==='september');
 
   monthIndex.textContent=data.index;
@@ -1873,8 +1934,9 @@ async function openMonthPage(key){
   }
 
   if(key==='september'){
-    buildSeptemberAscii(septemberAsciiLayer,18);
-    await sleep(60);
+    buildSeptemberAscii(septemberAsciiLayer,22);
+    preloadSeptemberBlinkPhotos(monthStoryData[key]);
+    await sleep(120);
     runSeptemberIntro(monthStoryData[key]);
   }else if(septemberAsciiLayer){
     septemberAsciiLayer.innerHTML='';
@@ -1886,6 +1948,7 @@ $('#backToOrbit').addEventListener('click',()=>{
   hideSeptemberIntro(true);
   if(septemberAsciiLayer) septemberAsciiLayer.innerHTML='';
   setSeptemberEpilogue(false);
+  setSeptemberDimension(false);
   if(giftShop && !giftShop.classList.contains('hidden-screen')) closeGiftShop();
   monthPage.scrollTop=0;
   monthPage.classList.add('hidden-screen');

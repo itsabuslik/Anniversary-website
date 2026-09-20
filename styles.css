@@ -1100,3 +1100,168 @@ body.memory-overlay-open{overflow:hidden!important}
 @keyframes autumnLeafA{from{transform:rotate(22deg) translate(0,0)}to{transform:rotate(42deg) translate(8px,12px)}}
 @keyframes autumnLeafB{from{transform:rotate(-43deg) translate(0,0)}to{transform:rotate(-25deg) translate(-7px,14px)}}
 @keyframes autumnLeafC{from{transform:rotate(70deg) translate(0,0)}to{transform:rotate(92deg) translate(10px,-8px)}}
+
+/* =========================================================
+   V32 — rebuilt September dimension
+   ========================================================= */
+.month-page.month-page-september{
+  position:fixed!important;
+  inset:0;
+  overflow-x:hidden;
+  overflow-y:auto;
+  background:
+    radial-gradient(circle at 18% 18%,rgba(255,135,198,.075),transparent 28%),
+    radial-gradient(circle at 84% 24%,rgba(255,204,118,.085),transparent 29%),
+    radial-gradient(circle at 48% 72%,rgba(91,141,255,.055),transparent 34%),
+    #040506;
+}
+.month-page-september .month-layout{display:none!important}
+.september-dimension{
+  position:relative;
+  z-index:5;
+  display:block;
+  width:100%;
+  min-height:180svh;
+  padding:0 16px max(110px,calc(72px + env(safe-area-inset-bottom)));
+  overflow:hidden;
+  isolation:isolate;
+}
+.september-dimension.hidden{display:none!important}
+.september-hero{
+  position:relative;
+  display:grid;
+  place-items:center;
+  min-height:calc(100svh - 54px);
+  padding:84px 12px 46px;
+  text-align:center;
+}
+.september-hero-title{
+  position:relative;
+  z-index:5;
+  margin:0;
+  color:#f7efe7;
+  font-size:clamp(48px,15vw,126px);
+  line-height:.88;
+  letter-spacing:-.065em;
+  text-shadow:
+    -3px 0 rgba(255,176,106,.13),
+    3px 0 rgba(255,102,189,.11),
+    0 18px 56px rgba(0,0,0,.5);
+  filter:drop-shadow(0 0 18px rgba(255,193,128,.08));
+}
+.september-hero-mark{
+  position:absolute;
+  top:22%;
+  left:50%;
+  z-index:4;
+  transform:translateX(-50%);
+  color:rgba(255,221,175,.34);
+  font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:5px;
+  white-space:nowrap;
+}
+.september-hero-ascii{
+  position:absolute;
+  left:50%;
+  bottom:16%;
+  z-index:4;
+  width:min(88vw,720px);
+  transform:translateX(-50%);
+  color:rgba(236,225,220,.16);
+  font:700 clamp(9px,2.8vw,14px)/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:clamp(2px,.8vw,7px);
+  white-space:normal;
+}
+.september-hero-orbit{
+  position:absolute;
+  left:50%;top:50%;
+  width:min(72vw,460px);
+  aspect-ratio:1;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(255,209,155,.07);
+  border-radius:50%;
+  box-shadow:0 0 80px rgba(255,129,196,.04),inset 0 0 80px rgba(255,196,111,.025);
+  animation:septemberOrbitSpin 36s linear infinite;
+}
+.september-hero-orbit::before,.september-hero-orbit::after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  border:1px dashed rgba(255,205,144,.07);
+}
+.september-hero-orbit::before{inset:14%;transform:rotate(27deg)}
+.september-hero-orbit::after{inset:31%;border-color:rgba(255,122,197,.075);transform:rotate(-17deg)}
+.september-hero-orbit i{
+  position:absolute;
+  width:5px;height:5px;
+  border-radius:50%;
+  background:rgba(255,215,158,.36);
+  box-shadow:0 0 14px rgba(255,160,91,.26);
+}
+.september-hero-orbit i:nth-child(1){left:6%;top:52%}
+.september-hero-orbit i:nth-child(2){right:18%;top:10%;background:rgba(255,133,203,.34)}
+.september-hero-orbit i:nth-child(3){right:6%;bottom:28%;background:rgba(171,199,255,.3)}
+@keyframes septemberOrbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* The intro is a true full-screen transition, independent of the month layout. */
+#septemberIntroOverlay.september-intro-overlay{
+  position:fixed!important;
+  inset:0!important;
+  z-index:190!important;
+  border-radius:0!important;
+  background:#030405;
+}
+#septemberIntroOverlay .september-intro-photo-wrap{position:absolute;inset:0}
+#septemberIntroOverlay .september-intro-photo{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center;
+}
+#septemberIntroOverlay .september-intro-photo-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(circle at center,transparent 38%,rgba(2,3,5,.42) 100%),
+    linear-gradient(180deg,rgba(2,3,5,.05),rgba(2,3,5,.2));
+}
+#septemberIntroOverlay .september-intro-title{
+  position:absolute;
+  inset:0;
+  z-index:8;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  color:#fff4e7;
+  font-size:clamp(48px,15vw,126px);
+  letter-spacing:-.065em;
+  text-align:center;
+  background:radial-gradient(circle at center,rgba(4,5,7,.34),rgba(4,5,7,.08) 42%,transparent 68%);
+}
+
+/* ASCII remains decorative only. */
+.september-ascii-layer{
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  overflow:hidden;
+}
+.september-ascii-layer span{mix-blend-mode:screen}
+.september-aura{z-index:0}
+
+/* Ending starts only after the hero, so the user has to scroll a little. */
+.september-dimension .september-epilogue{
+  position:relative;
+  z-index:5;
+  margin-top:clamp(20px,4vh,52px);
+  padding-bottom:max(120px,calc(80px + env(safe-area-inset-bottom)));
+}
+.september-dimension .september-ticker{width:calc(100% + 32px);margin-left:-16px}
+.september-dimension .september-ending-copy{margin-top:clamp(86px,13vh,150px)}
+.september-dimension .september-shop-gate{margin-top:clamp(170px,30vh,360px)}
+
+@media(min-width:780px){
+  .september-dimension{padding-left:28px;padding-right:28px}
+  .september-dimension .september-ticker{width:100%;margin-left:0}
+}

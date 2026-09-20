@@ -1,337 +1,299 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
-  <meta name="theme-color" content="#040607">
-  <title>6 Months</title>
-  <link rel="stylesheet" href="styles.css?v=31">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content" name="viewport"/>
+<meta content="#040607" name="theme-color"/>
+<title>6 Months</title>
+<link href="styles.css?v=32" rel="stylesheet"/>
 </head>
 <body>
-
-<section id="chatIntro" class="chat-screen">
-  <div class="chat-background"></div>
-  <button id="skipChatOne" class="chat-skip" type="button">SKIP</button>
-  <div class="chat-vignette"></div>
-
-  <header class="chat-header">
-    <button class="icon-btn back-btn" aria-label="Back">←</button>
-    <div class="profile-avatar">
-      <img src="avatar.jpg" alt="" onerror="this.remove()">
-      <span>♡</span>
-    </div>
-    <div class="profile-info">
-      <div class="profile-name">Slečna Kačenka</div>
-      <div class="profile-status">Active now</div>
-    </div>
-    <button class="icon-btn call-btn" aria-label="Call">⌕</button>
-    <button class="icon-btn video-btn" aria-label="Video">▢</button>
-  </header>
-
-  <main id="chatBody" class="chat-body">
-    <div class="date-separator">7. NOV., 16:10</div>
-    <div class="story-context">
-      <div>You replied to their story</div>
-      <div>Story unavailable</div>
-    </div>
-    <div id="messages" class="messages"></div>
-    <div id="typing" class="typing hidden"><span></span><span></span><span></span></div>
-  </main>
-
-  <form id="messageForm" class="composer" autocomplete="off">
-    <button type="button" class="camera-btn" aria-label="Camera"><span class="camera-lens"></span></button>
-    <input id="messageInput" type="text" placeholder="Message..." maxlength="250">
-    <button type="button" class="composer-icon">◌</button>
-    <button type="button" class="composer-icon">▧</button>
-    <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="sendButton" class="send-btn">Send</button>
-  </form>
-</section>
-
-
-<section id="chatInterlude" class="chat-screen hidden-screen">
-  <div class="chat-background"></div>
-  <button id="skipChatTwo" class="chat-skip" type="button">SKIP</button>
-  <div class="chat-vignette"></div>
-
-  <header class="chat-header">
-    <button class="icon-btn back-btn" aria-label="Back">←</button>
-    <div class="profile-avatar">
-      <img src="avatar.jpg" alt="" onerror="this.remove()">
-      <span>♡</span>
-    </div>
-    <div class="profile-info">
-      <div class="profile-name">Slečna Kačenka</div>
-      <div class="profile-status">Active now</div>
-    </div>
-    <button class="icon-btn call-btn" aria-label="Call">⌕</button>
-    <button class="icon-btn video-btn" aria-label="Video">▢</button>
-  </header>
-
-  <main id="chatInterludeBody" class="chat-body">
-    <div id="interludeMessages" class="messages"></div>
-    <div id="interludeTyping" class="typing hidden"><span></span><span></span><span></span></div>
-  </main>
-
-  <form id="interludeForm" class="composer" autocomplete="off">
-    <button type="button" class="camera-btn" aria-label="Camera"><span class="camera-lens"></span></button>
-    <input id="interludeInput" type="text" placeholder="Message..." maxlength="250">
-    <button type="button" class="composer-icon">◌</button>
-    <button type="button" class="composer-icon">▧</button>
-    <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="interludeSendButton" class="send-btn">Send</button>
-  </form>
-</section>
-
-
-<section id="memoryFlash" class="memory-flash hidden-screen" aria-label="Memory video">
-  <video id="memoryBridgeVideo" class="memory-flash-video" src="videos/memory_bridge.mp4" playsinline preload="metadata"></video>
-  <div class="memory-flash-shade"></div>
-  <button id="memoryVideoSkip" class="memory-video-skip" type="button">SKIP</button>
-</section>
-
-<section id="treeHub" class="tree-screen hidden-screen">
-  <canvas id="treeCanvas" class="well-canvas" aria-hidden="true"></canvas>
-  <div class="tree-green-vignette"></div>
-  <div class="tree-scanlines"></div>
-  <div class="tree-haze tree-haze-a"></div>
-  <div class="tree-haze tree-haze-b"></div>
-
-  <header class="tree-header">
-    <button id="soundToggleTree" class="sound-toggle" type="button">SOUND ON</button>
-  </header>
-
-  <div class="tree-stage">
-    <img class="tree-image" src="photos/tree.png" alt="Green pixel tree">
-
-    <button class="bush bush-1" data-memory="01" aria-label="Memory 01"><span>01</span></button>
-    <button class="bush bush-2" data-memory="02" aria-label="Memory 02"><span>02</span></button>
-    <button class="bush bush-3" data-memory="03" aria-label="Memory 03"><span>03</span></button>
-    <button class="bush bush-4" data-memory="04" aria-label="Memory 04"><span>04</span></button>
-  </div>
-
-  <button id="enterWellFromTree" class="tree-enter-well hidden" type="button">ENTER MEMORY WELL</button>
-</section>
-
-<section id="treeMemoryPage" class="tree-memory-page hidden-screen">
-  <canvas id="treeMemoryCanvas" class="well-canvas" aria-hidden="true"></canvas>
-  <div class="tree-green-vignette"></div>
-  <div class="tree-scanlines"></div>
-  <div class="tree-haze tree-haze-a"></div>
-  <div class="tree-haze tree-haze-b"></div>
-
-  <div class="tree-memory-topbar">
-    <button id="backToTree" class="back-orbit" type="button">← MAIN SCREEN</button>
-    <button id="soundToggleTreeMemory" class="sound-toggle" type="button">SOUND ON</button>
-  </div>
-
-  <main class="tree-memory-main">
-    <div class="tree-memory-photo-wall" aria-hidden="true">
-      <img src="photos/memory01_a.png" alt="">
-      <img src="photos/memory01_b.png" alt="">
-      <img src="photos/memory01_c.png" alt="">
-      <img src="photos/memory01_d.png" alt="">
-    </div>
-    <div class="tree-memory-heading">
-      <div id="treeMemoryIndex" class="tree-memory-index">01</div>
-      <div id="treeMemoryTitle" class="tree-memory-title">Nemocnice</div>
-    </div>
-    <div id="memoryFeatureMount" class="memory-feature-mount"></div>
-  </main>
-</section>
-
-<div id="memoryPhotoOverlay" class="memory-photo-overlay hidden" aria-hidden="true" role="dialog" aria-modal="true">
-  <button id="memoryPhotoClose" class="memory-photo-close" type="button" aria-label="Close">×</button>
-  <figure class="memory-photo-dialog">
-    <img id="memoryPhotoLarge" class="memory-photo-large" src="" alt="">
-    <video id="memoryVideoLarge" class="memory-photo-large hidden" playsinline preload="none"></video>
-    <figcaption id="memoryPhotoText" class="memory-photo-text"></figcaption>
-  </figure>
+<section class="chat-screen" id="chatIntro">
+<div class="chat-background"></div>
+<button class="chat-skip" id="skipChatOne" type="button">SKIP</button>
+<div class="chat-vignette"></div>
+<header class="chat-header">
+<button aria-label="Back" class="icon-btn back-btn">←</button>
+<div class="profile-avatar">
+<img alt="" onerror="this.remove()" src="avatar.jpg"/>
+<span>♡</span>
 </div>
-
-<section id="orbitScreen" class="orbit-screen hidden-screen">
-  <canvas id="wellCanvas" class="well-canvas" aria-hidden="true"></canvas>
-  <canvas id="trailCanvas" class="trail-canvas" aria-hidden="true"></canvas>
-
-  <div class="screen-vignette"></div>
-  <div class="scanlines"></div>
-  <div class="chromatic-haze haze-a"></div>
-  <div class="chromatic-haze haze-b"></div>
-  <div class="cursor-light" id="cursorLight"></div>
-
-  <div class="cave-frame cave-left"></div>
-  <div class="cave-frame cave-right"></div>
-  <div class="glitch-band g1"></div>
-  <div class="glitch-band g2"></div>
-
-  <div class="ascii-field" aria-hidden="true"><pre>
+<div class="profile-info">
+<div class="profile-name">Slečna Kačenka</div>
+<div class="profile-status">Active now</div>
+</div>
+<button aria-label="Call" class="icon-btn call-btn">⌕</button>
+<button aria-label="Video" class="icon-btn video-btn">▢</button>
+</header>
+<main class="chat-body" id="chatBody">
+<div class="date-separator">7. NOV., 16:10</div>
+<div class="story-context">
+<div>You replied to their story</div>
+<div>Story unavailable</div>
+</div>
+<div class="messages" id="messages"></div>
+<div class="typing hidden" id="typing"><span></span><span></span><span></span></div>
+</main>
+<form autocomplete="off" class="composer" id="messageForm">
+<button aria-label="Camera" class="camera-btn" type="button"><span class="camera-lens"></span></button>
+<input id="messageInput" maxlength="250" placeholder="Message..." type="text"/>
+<button class="composer-icon" type="button">◌</button>
+<button class="composer-icon" type="button">▧</button>
+<button class="composer-icon" type="button">☺</button>
+<button class="send-btn" id="sendButton" type="submit">Send</button>
+</form>
+</section>
+<section class="chat-screen hidden-screen" id="chatInterlude">
+<div class="chat-background"></div>
+<button class="chat-skip" id="skipChatTwo" type="button">SKIP</button>
+<div class="chat-vignette"></div>
+<header class="chat-header">
+<button aria-label="Back" class="icon-btn back-btn">←</button>
+<div class="profile-avatar">
+<img alt="" onerror="this.remove()" src="avatar.jpg"/>
+<span>♡</span>
+</div>
+<div class="profile-info">
+<div class="profile-name">Slečna Kačenka</div>
+<div class="profile-status">Active now</div>
+</div>
+<button aria-label="Call" class="icon-btn call-btn">⌕</button>
+<button aria-label="Video" class="icon-btn video-btn">▢</button>
+</header>
+<main class="chat-body" id="chatInterludeBody">
+<div class="messages" id="interludeMessages"></div>
+<div class="typing hidden" id="interludeTyping"><span></span><span></span><span></span></div>
+</main>
+<form autocomplete="off" class="composer" id="interludeForm">
+<button aria-label="Camera" class="camera-btn" type="button"><span class="camera-lens"></span></button>
+<input id="interludeInput" maxlength="250" placeholder="Message..." type="text"/>
+<button class="composer-icon" type="button">◌</button>
+<button class="composer-icon" type="button">▧</button>
+<button class="composer-icon" type="button">☺</button>
+<button class="send-btn" id="interludeSendButton" type="submit">Send</button>
+</form>
+</section>
+<section aria-label="Memory video" class="memory-flash hidden-screen" id="memoryFlash">
+<video class="memory-flash-video" id="memoryBridgeVideo" playsinline="" preload="metadata" src="videos/memory_bridge.mp4"></video>
+<div class="memory-flash-shade"></div>
+<button class="memory-video-skip" id="memoryVideoSkip" type="button">SKIP</button>
+</section>
+<section class="tree-screen hidden-screen" id="treeHub">
+<canvas aria-hidden="true" class="well-canvas" id="treeCanvas"></canvas>
+<div class="tree-green-vignette"></div>
+<div class="tree-scanlines"></div>
+<div class="tree-haze tree-haze-a"></div>
+<div class="tree-haze tree-haze-b"></div>
+<header class="tree-header">
+<button class="sound-toggle" id="soundToggleTree" type="button">SOUND ON</button>
+</header>
+<div class="tree-stage">
+<img alt="Green pixel tree" class="tree-image" src="photos/tree.png"/>
+<button aria-label="Memory 01" class="bush bush-1" data-memory="01"><span>01</span></button>
+<button aria-label="Memory 02" class="bush bush-2" data-memory="02"><span>02</span></button>
+<button aria-label="Memory 03" class="bush bush-3" data-memory="03"><span>03</span></button>
+<button aria-label="Memory 04" class="bush bush-4" data-memory="04"><span>04</span></button>
+</div>
+<button class="tree-enter-well hidden" id="enterWellFromTree" type="button">ENTER MEMORY WELL</button>
+</section>
+<section class="tree-memory-page hidden-screen" id="treeMemoryPage">
+<canvas aria-hidden="true" class="well-canvas" id="treeMemoryCanvas"></canvas>
+<div class="tree-green-vignette"></div>
+<div class="tree-scanlines"></div>
+<div class="tree-haze tree-haze-a"></div>
+<div class="tree-haze tree-haze-b"></div>
+<div class="tree-memory-topbar">
+<button class="back-orbit" id="backToTree" type="button">← MAIN SCREEN</button>
+<button class="sound-toggle" id="soundToggleTreeMemory" type="button">SOUND ON</button>
+</div>
+<main class="tree-memory-main">
+<div aria-hidden="true" class="tree-memory-photo-wall">
+<img alt="" src="photos/memory01_a.png"/>
+<img alt="" src="photos/memory01_b.png"/>
+<img alt="" src="photos/memory01_c.png"/>
+<img alt="" src="photos/memory01_d.png"/>
+</div>
+<div class="tree-memory-heading">
+<div class="tree-memory-index" id="treeMemoryIndex">01</div>
+<div class="tree-memory-title" id="treeMemoryTitle">Nemocnice</div>
+</div>
+<div class="memory-feature-mount" id="memoryFeatureMount"></div>
+</main>
+</section>
+<div aria-hidden="true" aria-modal="true" class="memory-photo-overlay hidden" id="memoryPhotoOverlay" role="dialog">
+<button aria-label="Close" class="memory-photo-close" id="memoryPhotoClose" type="button">×</button>
+<figure class="memory-photo-dialog">
+<img alt="" class="memory-photo-large" id="memoryPhotoLarge" src=""/>
+<video class="memory-photo-large hidden" id="memoryVideoLarge" playsinline="" preload="none"></video>
+<figcaption class="memory-photo-text" id="memoryPhotoText"></figcaption>
+</figure>
+</div>
+<section class="orbit-screen hidden-screen" id="orbitScreen">
+<canvas aria-hidden="true" class="well-canvas" id="wellCanvas"></canvas>
+<canvas aria-hidden="true" class="trail-canvas" id="trailCanvas"></canvas>
+<div class="screen-vignette"></div>
+<div class="scanlines"></div>
+<div class="chromatic-haze haze-a"></div>
+<div class="chromatic-haze haze-b"></div>
+<div class="cursor-light" id="cursorLight"></div>
+<div class="cave-frame cave-left"></div>
+<div class="cave-frame cave-right"></div>
+<div class="glitch-band g1"></div>
+<div class="glitch-band g2"></div>
+<div aria-hidden="true" class="ascii-field"><pre>
 ░▒▓█  ·  ◌  .  ✦  .  ◌  ·  █▓▒░
 []{}//\  010101  //\{}[]
 </pre></div>
-
-  <header class="orbit-header">
-    <button id="soundToggle" class="sound-toggle" type="button">SOUND ON</button>
-  </header>
-
-  <div class="title-wrap">
-    <h1 id="orbitTitle" class="orbit-title" data-text="6 MONTHS">6 MONTHS</h1>
-  </div>
-
-  <div class="pixel-water" aria-hidden="true">
-    <div class="water-line w1"></div>
-    <div class="water-line w2"></div>
-    <div class="water-line w3"></div>
-  </div>
-
-  <div id="orbitStage" class="orbit-stage">
-    <button class="sphere sphere-april" data-month="april"><span class="orb-no">01</span><span class="sphere-label">APRIL</span></button>
-    <button class="sphere sphere-may" data-month="may"><span class="orb-no">02</span><span class="sphere-label">MAY</span></button>
-    <button class="sphere sphere-june" data-month="june"><span class="orb-no">03</span><span class="sphere-label">JUNE</span></button>
-    <button class="sphere sphere-july" data-month="july"><span class="orb-no">04</span><span class="sphere-label">JULY</span></button>
-    <button class="sphere sphere-august" data-month="august"><span class="orb-no">05</span><span class="sphere-label">AUGUST</span></button>
-    <button class="sphere sphere-september" data-month="september"><span class="orb-no">06</span><span class="sphere-label">SEPTEMBER</span></button>
-  </div>
+<header class="orbit-header">
+<button class="sound-toggle" id="soundToggle" type="button">SOUND ON</button>
+</header>
+<div class="title-wrap">
+<h1 class="orbit-title" data-text="6 MONTHS" id="orbitTitle">6 MONTHS</h1>
+</div>
+<div aria-hidden="true" class="pixel-water">
+<div class="water-line w1"></div>
+<div class="water-line w2"></div>
+<div class="water-line w3"></div>
+</div>
+<div class="orbit-stage" id="orbitStage">
+<button class="sphere sphere-april" data-month="april"><span class="orb-no">01</span><span class="sphere-label">APRIL</span></button>
+<button class="sphere sphere-may" data-month="may"><span class="orb-no">02</span><span class="sphere-label">MAY</span></button>
+<button class="sphere sphere-june" data-month="june"><span class="orb-no">03</span><span class="sphere-label">JUNE</span></button>
+<button class="sphere sphere-july" data-month="july"><span class="orb-no">04</span><span class="sphere-label">JULY</span></button>
+<button class="sphere sphere-august" data-month="august"><span class="orb-no">05</span><span class="sphere-label">AUGUST</span></button>
+<button class="sphere sphere-september" data-month="september"><span class="orb-no">06</span><span class="sphere-label">SEPTEMBER</span></button>
+</div>
 </section>
+<section class="month-page hidden-screen" id="monthPage"><div aria-hidden="true" class="september-intro-overlay hidden" id="septemberIntroOverlay">
+<div class="september-intro-photo-wrap">
+<img alt="" class="september-intro-photo" id="septemberIntroPhoto" src=""/>
+<div class="september-intro-flash"></div>
+<div aria-hidden="true" class="september-intro-ascii" id="septemberIntroAscii"></div>
+</div>
+<div class="september-intro-title" id="septemberIntroTitle">Tady jsme</div>
+</div>
+<canvas aria-hidden="true" class="well-canvas" id="monthCanvas"></canvas>
+<div class="screen-vignette"></div>
+<div class="scanlines"></div>
+<div class="chromatic-haze haze-a"></div>
+<div class="chromatic-haze haze-b"></div>
+<div class="month-topbar">
+<button class="back-orbit" id="backToOrbit" type="button">← MAIN SCREEN</button>
+<button class="sound-toggle" id="soundToggleMonth" type="button">SOUND ON</button>
+</div>
+<div class="month-layout">
+<aside class="month-sidebar">
+<div class="month-index" id="monthIndex">01</div>
+<div class="month-range">APRIL → SEPTEMBER</div>
+<div aria-hidden="true" class="tiny-map"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+</aside>
+<main class="month-main">
+<h2 class="month-title" data-text="APRIL" id="monthTitle">APRIL</h2>
+<div aria-hidden="true" class="month-background hidden" id="monthBackground"></div>
 
-<section id="monthPage" class="month-page hidden-screen">
-  <canvas id="monthCanvas" class="well-canvas" aria-hidden="true"></canvas>
-  <div class="screen-vignette"></div>
-  <div class="scanlines"></div>
-  <div class="chromatic-haze haze-a"></div>
-  <div class="chromatic-haze haze-b"></div>
-
-  <div class="month-topbar">
-    <button id="backToOrbit" class="back-orbit" type="button">← MAIN SCREEN</button>
-    <button id="soundToggleMonth" class="sound-toggle" type="button">SOUND ON</button>
-  </div>
-
-  <div class="month-layout">
-    <aside class="month-sidebar">
-      <div id="monthIndex" class="month-index">01</div>
-      <div class="month-range">APRIL → SEPTEMBER</div>
-      <div class="tiny-map" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-    </aside>
-
-    <main class="month-main">
-      <h2 id="monthTitle" class="month-title" data-text="APRIL">APRIL</h2>
-
-      <div id="monthBackground" class="month-background hidden" aria-hidden="true"></div>
 
 
 
-  <div id="septemberAsciiLayer" class="september-ascii-layer" aria-hidden="true"></div>
-  <div class="september-aura september-aura-a" aria-hidden="true"></div>
-  <div class="september-aura september-aura-b" aria-hidden="true"></div>
+<div class="month-carousel">
+<button aria-label="Previous section" class="month-nav month-nav-left hidden" id="monthPrev" type="button">←</button>
+<div class="month-viewport">
+<div class="month-track" id="monthTrack"></div>
+</div>
+<button aria-label="Next section" class="month-nav month-nav-right hidden" id="monthNext" type="button">→</button>
+</div>
 
-  <div id="septemberIntroOverlay" class="september-intro-overlay hidden" aria-hidden="true">
-    <div class="september-intro-photo-wrap">
-      <img id="septemberIntroPhoto" class="september-intro-photo" src="" alt="">
-      <div class="september-intro-flash"></div>
-      <div id="septemberIntroAscii" class="september-intro-ascii" aria-hidden="true"></div>
-    </div>
-    <div id="septemberIntroTitle" class="september-intro-title">Tady jsme</div>
-  </div>
-
-      <div class="month-carousel">
-        <button id="monthPrev" class="month-nav month-nav-left hidden" type="button" aria-label="Previous section">←</button>
-        <div class="month-viewport">
-          <div id="monthTrack" class="month-track"></div>
-        </div>
-        <button id="monthNext" class="month-nav month-nav-right hidden" type="button" aria-label="Next section">→</button>
-      </div>
-
-      <section id="septemberEpilogue" class="september-epilogue hidden" aria-label="September ending">
-        <div id="septemberTicker" class="september-ticker">
-          <div class="september-ticker-track" aria-hidden="true">
-            <span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
-            <span>//</span>
-            <span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
-            <span>//</span>
-          </div>
-        </div>
-
-        <div class="september-ending-copy">
-          <p>Tady jsem chtěl jenom vzpomenout na 6 pěkných měsíců, co jsme strávili spolu. Od prvních konverzací do dnešního dne. Děkuju ti za to. Těším se stravit s tebou život v radosti a neštěstí, zvládnout jakékoliv překážky a sladce sdílet každý okamžik. Já vím, že to zvladneme. Miluju tě nejvíc na světě! :3</p>
-        </div>
-
-        <div class="september-shop-gate">
-          <div class="autumn-leaf leaf-a" aria-hidden="true"></div>
-          <div class="autumn-leaf leaf-b" aria-hidden="true"></div>
-          <div class="autumn-leaf leaf-c" aria-hidden="true"></div>
-          <button id="openGiftShop" class="gift-shop-button" type="button">
-            <span class="gift-shop-button-small">06 / 06</span>
-            <span class="gift-shop-button-title">GIFT SHOP</span>
-            <span class="gift-shop-button-arrow">→</span>
-          </button>
-        </div>
-      </section>
-    </main>
-  </div>
+</main>
+</div><section aria-label="September" class="september-dimension hidden" id="septemberDimension">
+<div aria-hidden="true" class="september-ascii-layer" id="septemberAsciiLayer"></div>
+<div aria-hidden="true" class="september-aura september-aura-a"></div>
+<div aria-hidden="true" class="september-aura september-aura-b"></div>
+<div class="september-hero">
+<div aria-hidden="true" class="september-hero-orbit"><i></i><i></i><i></i></div>
+<div aria-hidden="true" class="september-hero-mark">06 // ∴ // 06</div>
+<h2 class="september-hero-title">Tady jsme</h2>
+<div aria-hidden="true" class="september-hero-ascii">░▒▓ // :: ++ ~~ \ / [] {} :: // ▓▒░</div>
+</div>
+<section aria-label="September ending" class="september-epilogue hidden" id="septemberEpilogue">
+<div class="september-ticker" id="septemberTicker">
+<div aria-hidden="true" class="september-ticker-track">
+<span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
+<span>//</span>
+<span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
+<span>//</span>
+</div>
+</div>
+<div class="september-ending-copy">
+<p>Tady jsem chtěl jenom vzpomenout na 6 pěkných měsíců, co jsme strávili spolu. Od prvních konverzací do dnešního dne. Děkuju ti za to. Těším se stravit s tebou život v radosti a neštěstí, zvládnout jakékoliv překážky a sladce sdílet každý okamžik. Já vím, že to zvladneme. Miluju tě nejvíc na světě! :3</p>
+</div>
+<div class="september-shop-gate">
+<div aria-hidden="true" class="autumn-leaf leaf-a"></div>
+<div aria-hidden="true" class="autumn-leaf leaf-b"></div>
+<div aria-hidden="true" class="autumn-leaf leaf-c"></div>
+<button class="gift-shop-button" id="openGiftShop" type="button">
+<span class="gift-shop-button-small">06 / 06</span>
+<span class="gift-shop-button-title">GIFT SHOP</span>
+<span class="gift-shop-button-arrow">→</span>
+</button>
+</div>
+</section></section>
 </section>
-
-
-<section id="giftShop" class="gift-shop hidden-screen" aria-hidden="true">
-  <div class="gift-shop-noise" aria-hidden="true"></div>
-  <div class="gift-shop-glow gift-shop-glow-a" aria-hidden="true"></div>
-  <div class="gift-shop-glow gift-shop-glow-b" aria-hidden="true"></div>
-
-  <header class="gift-shop-header">
-    <button id="closeGiftShop" class="gift-shop-back" type="button">← SEPTEMBER</button>
-    <div class="gift-shop-sign">GIFT SHOP</div>
-    <div class="gift-shop-kiss-mini">KISS CURRENCY</div>
-  </header>
-
-  <main class="gift-shop-room">
-    <div class="gift-shop-awning" aria-hidden="true">
-      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-    </div>
-
-    <section class="gift-shop-shelf" aria-label="Gift shelf">
-      <button class="gift-item" type="button" data-price="1">
-        <span class="gift-box gift-box-a" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 01</span>
-        <span class="gift-item-price">1 KISS</span>
-      </button>
-      <button class="gift-item" type="button" data-price="2">
-        <span class="gift-box gift-box-b" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 02</span>
-        <span class="gift-item-price">2 KISSES</span>
-      </button>
-      <button class="gift-item" type="button" data-price="3">
-        <span class="gift-box gift-box-c" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 03</span>
-        <span class="gift-item-price">3 KISSES</span>
-      </button>
-      <button class="gift-item" type="button" data-price="5">
-        <span class="gift-box gift-box-d" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 04</span>
-        <span class="gift-item-price">5 KISSES</span>
-      </button>
-      <button class="gift-item" type="button" data-price="8">
-        <span class="gift-box gift-box-e" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 05</span>
-        <span class="gift-item-price">8 KISSES</span>
-      </button>
-      <button class="gift-item" type="button" data-price="13">
-        <span class="gift-box gift-box-f" aria-hidden="true"><i></i></span>
-        <span class="gift-item-name">GIFT 06</span>
-        <span class="gift-item-price">13 KISSES</span>
-      </button>
-    </section>
-
-    <section class="gift-shop-counter" aria-label="Shop counter">
-      <div class="counter-register">
-        <div class="counter-register-label">COUNTER</div>
-        <div id="giftShopTotal" class="counter-register-total">0 KISSES</div>
-      </div>
-      <button id="giftShopReset" class="counter-reset" type="button">RESET</button>
-      <div class="counter-stripes" aria-hidden="true"></div>
-    </section>
-  </main>
+<section aria-hidden="true" class="gift-shop hidden-screen" id="giftShop">
+<div aria-hidden="true" class="gift-shop-noise"></div>
+<div aria-hidden="true" class="gift-shop-glow gift-shop-glow-a"></div>
+<div aria-hidden="true" class="gift-shop-glow gift-shop-glow-b"></div>
+<header class="gift-shop-header">
+<button class="gift-shop-back" id="closeGiftShop" type="button">← SEPTEMBER</button>
+<div class="gift-shop-sign">GIFT SHOP</div>
+<div class="gift-shop-kiss-mini">KISS CURRENCY</div>
+</header>
+<main class="gift-shop-room">
+<div aria-hidden="true" class="gift-shop-awning">
+<i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+</div>
+<section aria-label="Gift shelf" class="gift-shop-shelf">
+<button class="gift-item" data-price="1" type="button">
+<span aria-hidden="true" class="gift-box gift-box-a"><i></i></span>
+<span class="gift-item-name">GIFT 01</span>
+<span class="gift-item-price">1 KISS</span>
+</button>
+<button class="gift-item" data-price="2" type="button">
+<span aria-hidden="true" class="gift-box gift-box-b"><i></i></span>
+<span class="gift-item-name">GIFT 02</span>
+<span class="gift-item-price">2 KISSES</span>
+</button>
+<button class="gift-item" data-price="3" type="button">
+<span aria-hidden="true" class="gift-box gift-box-c"><i></i></span>
+<span class="gift-item-name">GIFT 03</span>
+<span class="gift-item-price">3 KISSES</span>
+</button>
+<button class="gift-item" data-price="5" type="button">
+<span aria-hidden="true" class="gift-box gift-box-d"><i></i></span>
+<span class="gift-item-name">GIFT 04</span>
+<span class="gift-item-price">5 KISSES</span>
+</button>
+<button class="gift-item" data-price="8" type="button">
+<span aria-hidden="true" class="gift-box gift-box-e"><i></i></span>
+<span class="gift-item-name">GIFT 05</span>
+<span class="gift-item-price">8 KISSES</span>
+</button>
+<button class="gift-item" data-price="13" type="button">
+<span aria-hidden="true" class="gift-box gift-box-f"><i></i></span>
+<span class="gift-item-name">GIFT 06</span>
+<span class="gift-item-price">13 KISSES</span>
+</button>
 </section>
-
-<div id="lockedNotice" class="locked-notice" role="status" aria-live="polite">ještě není čas</div>
-
-<script src="script.js?v=31"></script>
+<section aria-label="Shop counter" class="gift-shop-counter">
+<div class="counter-register">
+<div class="counter-register-label">COUNTER</div>
+<div class="counter-register-total" id="giftShopTotal">0 KISSES</div>
+</div>
+<button class="counter-reset" id="giftShopReset" type="button">RESET</button>
+<div aria-hidden="true" class="counter-stripes"></div>
+</section>
+</main>
+</section>
+<div aria-live="polite" class="locked-notice" id="lockedNotice" role="status">ještě není čas</div>
+<script src="script.js?v=32"></script>
 </body>
 </html>
