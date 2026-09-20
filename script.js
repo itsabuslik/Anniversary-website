@@ -259,6 +259,160 @@ const monthStoryData={
     ]
   }
 
+  ,july:{
+    sections:[
+      {
+        date:"3. července",
+        title:"Maličké úpravy mojí ženou se začátkem léta",
+        photos:[
+          {
+            image:"photos/july_01.webp",
+            caption:"click on it",
+            text:"Nový účes! První změna za dlooouhou dobu! Věřil jsem ti, že mi uděláš pěkný účet a teďka jseš můj kadeřník"
+          },
+          {
+            image:"photos/july_02.jpg",
+            caption:"click on it",
+            text:""
+          }
+        ]
+      },
+      {
+        date:"11-13. července",
+        title:"La datcha",
+        photos:[
+          {
+            image:"photos/july_03.webp",
+            caption:"click on it",
+            text:"Kolik času jsme strávili na chatě! A vždycky to je málo pro nás, chci tam znovu na přespávačku. To bylo moc hezky."
+          },
+          {
+            image:"photos/july_04.jpg",
+            caption:"click on it",
+            text:"Očekávaná přespávačka.. spát, jebat, spát, komáři, brouky... ahem."
+          },
+          {
+            image:"photos/july_05.jpg",
+            caption:"click on it",
+            text:"to bylo straaaaašně fajn! Líbilo se mi dívat na noviny, AZ kvíz, usínat koukajíc na to! Musíme zopakovat."
+          }
+        ]
+      },
+      {
+        date:"29-31. července",
+        title:"Trip do Zlína",
+        photos:[
+          {
+            image:"photos/july_06.jpg",
+            caption:"click on it",
+            text:"Wow, wow, uau! Kolik hodin jsem prosil rodiče tam jet, a dosud jsem překvapený, jak se mi to podařilo! Kdyby mi to někdo řekl před rokem.. řekl bych že je veliká nepravda."
+          },
+          {
+            image:"photos/july_07.jpg",
+            caption:"click on it",
+            text:"Nejvíc hodin strávených spolu bez pauzy- kolem 100 :3"
+          },
+          {
+            image:"photos/july_08.jpg",
+            caption:"click on it",
+            text:""
+          }
+        ]
+      }
+    ]
+  }
+
+  ,august:{
+    sections:[
+      {
+        date:"srpen",
+        title:"srpen",
+        text:[
+          "Srpen ani nejde popsat dobově. Přidám jen fotečky a napíšu něco k tomu :3",
+          "Nebo půjde popsat dobově.. nezůstalo se mi fotek z 4. srpna.. což je když jsme hodně nakolážovali... asi si to pamatuješ i tak :P"
+        ],
+        photos:[]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_01.jpg",
+            caption:"click on it",
+            text:"Nepopisatelně pěkně byl nakreslen slečnou Katěňkou"
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_02.jpg",
+            caption:"click on it",
+            text:"Duha po cestě domů- vyhazovali jsme \"bomby\""
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_03.jpg",
+            caption:"click on it",
+            text:"Uauau, kino, sedmikrásky s pivem(jinak bych zbláznil) a pokus o koláže na ulici. Hmmmm. Vzpomínky!"
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_04.webp",
+            caption:"click on it",
+            text:"Už se zdá že léto padá za oblohu, ale náhodou slunce se objevuje znovu! A to bylo jenom zatmění."
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_05.jpg",
+            caption:"click on it",
+            text:"Musíme znovu se podívat na tuhle fotku."
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_06.jpg",
+            caption:"click on it",
+            text:"Láska moje"
+          }
+        ]
+      },
+      {
+        date:"srpen",
+        title:"",
+        photos:[
+          {
+            image:"photos/august_07.jpg",
+            caption:"click on it",
+            text:"poslední letní den(podle mého kalendáře!!!!) a stravený spolu i když jsme spolu nebyli :3"
+          }
+        ]
+      }
+    ]
+  }
+
 };
 
 const $=(s,r=document)=>r.querySelector(s);
@@ -1395,6 +1549,18 @@ function renderMonthSlides(key){
       card.appendChild(title);
     }
 
+    if(section.text){
+      const copy=document.createElement("div");
+      copy.className="month-card-copy";
+      const paragraphs=Array.isArray(section.text)?section.text:[section.text];
+      paragraphs.filter(Boolean).forEach(paragraph=>{
+        const p=document.createElement("p");
+        p.textContent=paragraph;
+        copy.appendChild(p);
+      });
+      card.appendChild(copy);
+    }
+
     const photoList=document.createElement("div");
     photoList.className="month-section-photos";
 
@@ -1431,7 +1597,9 @@ function renderMonthSlides(key){
       photoList.appendChild(figure);
     });
 
-    card.appendChild(photoList);
+    if(photoList.childElementCount){
+      card.appendChild(photoList);
+    }
     slide.appendChild(card);
     monthTrack.appendChild(slide);
   });
