@@ -86,7 +86,7 @@ const monthStoryData={
       },
       {
         date:"4. dubna",
-        title:"",
+        title:"Pili, spali, pili, jedli, spali, pili",
         photos:[
           {
             image:"photos/april_04.jpg",
@@ -118,7 +118,7 @@ const monthStoryData={
       },
       {
         date:"26. dubna",
-        title:"",
+        title:"funkční jazyk",
         photos:[
           {
             type:"video",
@@ -130,6 +130,77 @@ const monthStoryData={
       }
     ]
   }
+
+  ,may:{
+    bg:"photos/may_bg.jpg",
+    sections:[
+      {
+        date:"1. května",
+        title:"Den lásky",
+        photos:[
+          {
+            image:"photos/may_01.jpg",
+            caption:"click on it",
+            text:"Pamatuješ si tu cestu do Prahy? A museum? A indické jídlo? A pak jak jsme chodili po Ústí a fotili se? Podívej se :3"
+          },
+          {
+            image:"photos/may_02.jpg",
+            caption:"click on it",
+            text:"tak pěkná..."
+          },
+          {
+            image:"photos/may_03.jpg",
+            caption:"click on it",
+            text:""
+          }
+        ]
+      },
+      {
+        date:"2. května",
+        title:"v náručích s náramky",
+        photos:[
+          {
+            image:"photos/may_04.jpg",
+            caption:"click on it",
+            text:"na věky věků naše náramky proplétají naše duši"
+          }
+        ]
+      },
+      {
+        date:"10. května",
+        title:"kousanky",
+        photos:[
+          {
+            image:"photos/may_05.jpg",
+            caption:"click on it",
+            text:"začala jsi mě kousat, a tohle bych si nechal jako tetování."
+          },
+          {
+            image:"photos/may_06.jpg",
+            caption:"click on it",
+            text:"mezitím začínám krást tvoje věci. Hehe:3"
+          }
+        ]
+      },
+      {
+        date:"30. května",
+        title:"vysatý",
+        photos:[
+          {
+            image:"photos/may_07.jpg",
+            caption:"click on it",
+            text:"mezitím my s tebou natačíme filmy. Peak aktivita spolu, žejo, haha. Kdohy, montáž filmu 20 hodin, ty sedíš u mě na klíně.."
+          },
+          {
+            image:"photos/may_08.jpg",
+            caption:"click on it",
+            text:""
+          }
+        ]
+      }
+    ]
+  }
+
 };
 
 const $=(s,r=document)=>r.querySelector(s);
@@ -226,6 +297,7 @@ const memoryPhotoData={
 
 const memoryFeatureMount=$("#memoryFeatureMount");
 const memoryPhotoOverlay=$("#memoryPhotoOverlay");
+const memoryPhotoDialog=$(".memory-photo-dialog");
 const memoryPhotoLarge=$("#memoryPhotoLarge");
 const memoryVideoLarge=$("#memoryVideoLarge");
 const memoryPhotoText=$("#memoryPhotoText");
@@ -623,11 +695,13 @@ function openMemoryPhoto(data){
   const isVideo=data?.type==='video';
   memoryPhotoLarge.classList.toggle('hidden',isVideo);
   memoryVideoLarge.classList.toggle('hidden',!isVideo);
+  memoryPhotoDialog?.classList.toggle('video-mode',isVideo);
 
   if(isVideo){
     memoryPhotoLarge.removeAttribute('src');
     memoryVideoLarge.src=data.src;
     memoryVideoLarge.currentTime=0;
+    memoryVideoLarge.controls=false;
     memoryVideoLarge.play().catch(()=>{});
   }else{
     memoryVideoLarge.pause();
@@ -645,10 +719,16 @@ function openMemoryPhoto(data){
 function closeMemoryPhoto(){
   memoryVideoLarge.pause();
   memoryVideoLarge.removeAttribute('src');
+  memoryPhotoDialog?.classList.remove('video-mode');
   memoryPhotoOverlay.classList.add('hidden');
   memoryPhotoOverlay.setAttribute('aria-hidden','true');
   document.body.classList.remove('memory-overlay-open');
 }
+
+memoryVideoLarge.addEventListener('click',()=>{
+  if(memoryVideoLarge.paused) memoryVideoLarge.play().catch(()=>{});
+  else memoryVideoLarge.pause();
+});
 
 memoryPhotoClose.addEventListener('click',closeMemoryPhoto);
 memoryPhotoOverlay.addEventListener('click',e=>{

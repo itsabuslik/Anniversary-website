@@ -108,8 +108,8 @@ button{cursor:pointer}
 .back-orbit{min-height:34px;padding:9px 12px;border-radius:999px;border:1px solid rgba(141,255,230,.22);background:rgba(2,7,8,.72);color:#daf5ee;font-size:10px;letter-spacing:1.7px;backdrop-filter:blur(8px)}
 .month-layout{position:relative;z-index:14;display:grid;grid-template-columns:1fr;gap:20px;padding:18px 16px max(80px,calc(34px + env(safe-area-inset-bottom)));min-height:calc(100svh + 1px)}.month-sidebar{display:flex;align-items:flex-end;gap:16px;border-bottom:1px solid rgba(112,255,225,.08);padding-bottom:16px}.month-index{font-size:52px;line-height:.8;letter-spacing:-.08em;color:#d8e4e1;text-shadow:-2px 0 rgba(0,215,255,.2),2px 0 rgba(255,45,145,.16)}.month-range{color:rgba(153,255,228,.4);font-size:9px;letter-spacing:3px}.tiny-map{display:grid;grid-template-columns:repeat(2,18px);gap:6px;margin-left:auto}.tiny-map i{width:18px;height:12px;border:1px solid rgba(118,255,226,.18);background:rgba(0,20,20,.18);animation:tinyBlink 4s steps(2,end) infinite}.tiny-map i:nth-child(2n){animation-delay:1.2s}
 .month-main{position:relative;max-width:960px;overflow:hidden}.month-title{position:relative;z-index:2;margin-top:16px;font-size:clamp(56px,16vw,145px);line-height:.8;letter-spacing:-.075em;color:#dce7e5}.month-title::before,.month-title::after{content:attr(data-text);position:absolute;inset:0;pointer-events:none;opacity:.18}.month-title::before{color:#00d9ff;transform:translateX(-3px);clip-path:inset(0 0 50% 0)}.month-title::after{color:#ff3f9c;transform:translateX(3px);clip-path:inset(50% 0 0 0)}
-.month-background{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:28px;opacity:.40;pointer-events:none}.month-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.95) contrast(1.03)}.month-background::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,6,.62),rgba(2,5,6,.68) 35%,rgba(2,5,6,.78) 100%)}
-.month-carousel{position:relative;z-index:2;margin-top:28px;padding:10px 0 22px}.month-viewport{overflow:hidden;border-radius:24px}.month-track{display:flex;transition:transform .42s cubic-bezier(.18,.8,.22,1);will-change:transform}.month-slide{flex:0 0 100%;min-width:100%;padding-right:2px}.month-card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:100%;padding:16px;border:1px solid rgba(116,255,226,.14);border-radius:24px;background:linear-gradient(180deg,rgba(4,11,12,.60),rgba(4,11,12,.76));box-shadow:inset 0 0 42px rgba(0,0,0,.46),0 18px 44px rgba(0,0,0,.22);backdrop-filter:blur(3px)}.month-card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:rgba(214,244,236,.78);font-size:10px;letter-spacing:2.4px;text-transform:uppercase}.month-card-date{color:rgba(160,255,234,.72)}.month-card-count{color:rgba(222,241,238,.44)}.month-card-title{margin:0;color:#eef7f4;font-size:clamp(24px,6vw,38px);line-height:.95;letter-spacing:-.04em}.month-card-photo{display:block;width:100%;padding:0;border:1px solid rgba(168,255,239,.18);border-radius:18px;overflow:hidden;background:rgba(0,10,12,.52);box-shadow:0 15px 45px rgba(0,0,0,.34);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.month-card-photo:hover,.month-card-photo:active{transform:translateY(-2px) scale(1.01);border-color:rgba(168,255,239,.34);box-shadow:0 18px 54px rgba(0,0,0,.46)}.month-card-photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.month-background{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:28px;opacity:.78;pointer-events:none}.month-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.95) contrast(1.03)}.month-background::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,6,.28),rgba(2,5,6,.36) 35%,rgba(2,5,6,.48) 100%)}
+.month-carousel{position:relative;z-index:2;margin-top:28px;padding:10px 0 22px}.month-viewport{overflow:hidden;border-radius:24px}.month-track{display:flex;transition:transform .42s cubic-bezier(.18,.8,.22,1);will-change:transform}.month-slide{flex:0 0 100%;min-width:100%;padding-right:2px}.month-card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:100%;padding:16px;border:1px solid rgba(116,255,226,.14);border-radius:24px;background:linear-gradient(180deg,rgba(4,11,12,.32),rgba(4,11,12,.48));box-shadow:inset 0 0 42px rgba(0,0,0,.46),0 18px 44px rgba(0,0,0,.22);backdrop-filter:blur(1.5px)}.month-card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:rgba(214,244,236,.78);font-size:10px;letter-spacing:2.4px;text-transform:uppercase}.month-card-date{color:rgba(160,255,234,.72)}.month-card-count{color:rgba(222,241,238,.44)}.month-card-title{margin:0;color:#eef7f4;font-size:clamp(24px,6vw,38px);line-height:.95;letter-spacing:-.04em}.month-card-photo{display:block;width:100%;padding:0;border:1px solid rgba(168,255,239,.18);border-radius:18px;overflow:hidden;background:rgba(0,10,12,.52);box-shadow:0 15px 45px rgba(0,0,0,.34);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.month-card-photo:hover,.month-card-photo:active{transform:translateY(-2px) scale(1.01);border-color:rgba(168,255,239,.34);box-shadow:0 18px 54px rgba(0,0,0,.46)}.month-card-photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
 .month-section-photos{
   display:grid;
   grid-template-columns:1fr;
@@ -664,11 +664,11 @@ body.memory-overlay-open{overflow:hidden!important}
   inset:0;
   width:100%;
   height:100%;
-  object-fit:cover;
+  object-fit:contain;
   object-position:center;
   background:#000;
   opacity:1;
-  transform:scale(1.015);
+  transform:none;
   animation:memoryFlashIn .42s ease both;
 }
 
@@ -703,9 +703,9 @@ body.memory-overlay-open{overflow:hidden!important}
   pointer-events:none;
 }
 @keyframes memoryFlashIn{
-  0%{opacity:0;filter:brightness(2.1) blur(2px);transform:scale(1.04)}
+  0%{opacity:0;filter:brightness(2.1) blur(2px);transform:none}
   34%{opacity:1;filter:brightness(1.35) blur(0)}
-  100%{opacity:1;filter:brightness(1);transform:scale(1.015)}
+  100%{opacity:1;filter:brightness(1);transform:none}
 }
 @keyframes memoryFlashOut{
   from{opacity:1;filter:brightness(1)}
@@ -782,8 +782,8 @@ body.memory-overlay-open{overflow:hidden!important}
 .month-card-photo video{
   display:block;
   width:100%;
-  aspect-ratio:4/3;
-  object-fit:cover;
+  aspect-ratio:16/9;
+  object-fit:contain;
   background:#020503;
   pointer-events:none;
 }
@@ -792,4 +792,28 @@ body.memory-overlay-open{overflow:hidden!important}
   max-height:82dvh;
   object-fit:contain;
   background:#020503;
+}
+
+/* V22: horizontal video viewing + text directly over the video */
+.memory-photo-dialog.video-mode{
+  width:min(96vw,900px);
+  background:#000;
+}
+.memory-photo-dialog.video-mode video.memory-photo-large{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:76dvh;
+  aspect-ratio:auto;
+  object-fit:contain;
+  background:#000;
+  cursor:pointer;
+}
+.memory-photo-dialog.video-mode .memory-photo-text{
+  bottom:0;
+  height:auto;
+  min-height:0;
+  max-height:min(42%,190px);
+  padding:46px 22px 20px;
+  background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.72) 62%,rgba(0,0,0,0) 100%);
 }
