@@ -6,7 +6,7 @@
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content" name="viewport"/>
 <meta content="#040607" name="theme-color"/>
 <title>6 Months</title>
-<link href="styles.css?v=32" rel="stylesheet"/>
+<link href="styles.css?v=34" rel="stylesheet"/>
 </head>
 <body>
 <section class="chat-screen" id="chatIntro">
@@ -164,8 +164,7 @@
 <button class="sphere sphere-august" data-month="august"><span class="orb-no">05</span><span class="sphere-label">AUGUST</span></button>
 <button class="sphere sphere-september" data-month="september"><span class="orb-no">06</span><span class="sphere-label">SEPTEMBER</span></button>
 </div>
-</section>
-<section class="month-page hidden-screen" id="monthPage"><div aria-hidden="true" class="september-intro-overlay hidden" id="septemberIntroOverlay">
+<div aria-hidden="true" class="september-intro-overlay hidden" id="septemberIntroOverlay">
 <div class="september-intro-photo-wrap">
 <img alt="" class="september-intro-photo" id="septemberIntroPhoto" src=""/>
 <div class="september-intro-flash"></div>
@@ -173,7 +172,8 @@
 </div>
 <div class="september-intro-title" id="septemberIntroTitle">Tady jsme</div>
 </div>
-<canvas aria-hidden="true" class="well-canvas" id="monthCanvas"></canvas>
+</section>
+<section class="month-page hidden-screen" id="monthPage"><canvas aria-hidden="true" class="well-canvas" id="monthCanvas"></canvas>
 <div class="screen-vignette"></div>
 <div class="scanlines"></div>
 <div class="chromatic-haze haze-a"></div>
@@ -245,55 +245,76 @@
 <header class="gift-shop-header">
 <button class="gift-shop-back" id="closeGiftShop" type="button">← SEPTEMBER</button>
 <div class="gift-shop-sign">GIFT SHOP</div>
-<div class="gift-shop-kiss-mini">KISS CURRENCY</div>
+<div class="gift-shop-header-mark" aria-hidden="true">✦ · ✦</div>
 </header>
 <main class="gift-shop-room">
 <div aria-hidden="true" class="gift-shop-awning">
 <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
 </div>
 <section aria-label="Gift shelf" class="gift-shop-shelf">
-<button class="gift-item" data-price="1" type="button">
+<button class="gift-item" data-gift="1" data-price="1" data-reward="photos/gift_reward_01.png" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-a"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_01.png" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 01</span>
 <span class="gift-item-price">1 KISS</span>
 </button>
-<button class="gift-item" data-price="2" type="button">
+<button class="gift-item" data-gift="2" data-price="2" data-reward="photos/gift_reward_02.jpg" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-b"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_02.jpg" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 02</span>
 <span class="gift-item-price">2 KISSES</span>
 </button>
-<button class="gift-item" data-price="3" type="button">
+<button class="gift-item" data-gift="3" data-price="3" data-reward="photos/gift_reward_03.png" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-c"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_03.png" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 03</span>
 <span class="gift-item-price">3 KISSES</span>
 </button>
-<button class="gift-item" data-price="5" type="button">
+<button class="gift-item" data-gift="4" data-price="5" data-reward="photos/gift_reward_04.jpg" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-d"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_04.jpg" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 04</span>
 <span class="gift-item-price">5 KISSES</span>
 </button>
-<button class="gift-item" data-price="8" type="button">
+<button class="gift-item" data-gift="5" data-price="8" data-reward="photos/gift_reward_05.jpg" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-e"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_05.jpg" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 05</span>
 <span class="gift-item-price">8 KISSES</span>
 </button>
-<button class="gift-item" data-price="13" type="button">
+<button class="gift-item" data-gift="6" data-price="13" data-reward="photos/gift_reward_06.png" type="button">
+<span class="gift-visual">
 <span aria-hidden="true" class="gift-box gift-box-f"><i></i></span>
+<span class="gift-reward-wrap"><img class="gift-reward-image" src="photos/gift_reward_06.png" alt=""></span>
+</span>
 <span class="gift-item-name">GIFT 06</span>
 <span class="gift-item-price">13 KISSES</span>
 </button>
 </section>
 <section aria-label="Shop counter" class="gift-shop-counter">
 <div class="counter-register">
-<div class="counter-register-label">COUNTER</div>
-<div class="counter-register-total" id="giftShopTotal">0 KISSES</div>
+<div>
+<div class="counter-register-label">SELECTED</div>
+<div class="counter-register-selection" id="giftShopSelection">choose one gift</div>
 </div>
-<button class="counter-reset" id="giftShopReset" type="button">RESET</button>
+<div class="counter-register-total" id="giftShopTotal">—</div>
+</div>
+<button class="gift-shop-pay" id="giftShopPay" type="button" disabled>PAY</button>
+<div class="gift-shop-receipt" id="giftShopReceipt" aria-live="polite"></div>
 <div aria-hidden="true" class="counter-stripes"></div>
-</section>
-</main>
+</section></main>
 </section>
 <div aria-live="polite" class="locked-notice" id="lockedNotice" role="status">ještě není čas</div>
-<script src="script.js?v=32"></script>
+<script src="script.js?v=34"></script>
 </body>
 </html>

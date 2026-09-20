@@ -1042,7 +1042,7 @@ body.memory-overlay-open{overflow:hidden!important}
 }
 .gift-shop-back{padding:9px 11px;border:1px solid rgba(255,199,124,.22);border-radius:999px;background:rgba(40,17,7,.72);color:#f7dcb0;font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.4px}
 .gift-shop-sign{text-align:center;font-size:clamp(20px,5vw,34px);font-weight:900;letter-spacing:-.035em;color:#ffe0aa;text-shadow:0 4px 24px rgba(255,119,26,.24)}
-.gift-shop-kiss-mini{text-align:right;color:rgba(255,210,150,.54);font:700 8px/1.1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.2px}
+.gift-shop-header-mark{text-align:right;color:rgba(255,210,150,.54);font:700 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:2px}
 .gift-shop-room{position:relative;z-index:3;width:min(920px,100%);margin:0 auto;padding:18px 14px max(90px,calc(44px + env(safe-area-inset-bottom)))}
 .gift-shop-awning{display:grid;grid-template-columns:repeat(8,1fr);height:46px;margin:8px 0 24px;overflow:hidden;border-radius:18px 18px 8px 8px;box-shadow:0 12px 34px rgba(0,0,0,.28)}
 .gift-shop-awning i:nth-child(odd){background:#e98827}.gift-shop-awning i:nth-child(even){background:#7c2d13}.gift-shop-awning i{transform:skewX(-6deg);border-right:1px solid rgba(255,236,192,.12)}
@@ -1265,3 +1265,145 @@ body.memory-overlay-open{overflow:hidden!important}
   .september-dimension{padding-left:28px;padding-right:28px}
   .september-dimension .september-ticker{width:100%;margin-left:0}
 }
+
+/* =========================================================
+   V33 — September transition stays on the Memory Well screen
+   ========================================================= */
+.orbit-screen.september-transitioning .sphere,
+.orbit-screen.september-transitioning .orbit-header,
+.orbit-screen.september-transitioning .title-wrap,
+.orbit-screen.september-transitioning .ascii-field{
+  pointer-events:none!important;
+}
+.orbit-screen.september-transitioning .sphere{
+  filter:brightness(.72) saturate(.72);
+  opacity:.58;
+  transition:opacity .25s ease,filter .25s ease;
+}
+
+#orbitScreen #septemberIntroOverlay.september-intro-overlay{
+  position:absolute!important;
+  inset:auto!important;
+  left:50%!important;
+  top:52%!important;
+  z-index:80!important;
+  width:min(86vw,680px)!important;
+  height:min(58svh,560px)!important;
+  min-height:300px;
+  transform:translate(-50%,-50%);
+  border:1px solid rgba(255,220,177,.22);
+  border-radius:24px!important;
+  overflow:hidden;
+  background:rgba(3,4,6,.93)!important;
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.62),
+    0 0 0 1px rgba(255,128,191,.05),
+    inset 0 0 70px rgba(255,190,110,.025);
+  pointer-events:auto;
+  touch-action:none;
+  cursor:wait;
+}
+#orbitScreen #septemberIntroOverlay.september-intro-overlay::before{
+  content:"░▒▓  //  ::  ++  ~~  ::  //  ▓▒░";
+  position:absolute;
+  left:16px;
+  right:16px;
+  top:12px;
+  z-index:12;
+  color:rgba(255,226,190,.24);
+  font:700 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;
+  letter-spacing:3px;
+  text-align:center;
+  pointer-events:none;
+}
+#orbitScreen #septemberIntroOverlay .september-intro-photo-wrap{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  padding:34px 14px 14px;
+  background:#050507;
+}
+#orbitScreen #septemberIntroOverlay .september-intro-photo{
+  width:100%!important;
+  height:100%!important;
+  object-fit:contain!important;
+  object-position:center!important;
+  border-radius:14px;
+  background:#030304;
+  filter:saturate(.94) contrast(1.04) brightness(.9)!important;
+}
+#orbitScreen #septemberIntroOverlay .september-intro-photo-wrap::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 46%,transparent 38%,rgba(3,3,5,.26) 82%,rgba(3,3,5,.48) 100%),
+    linear-gradient(180deg,rgba(255,205,146,.025),transparent 35%,rgba(255,118,193,.025));
+}
+#orbitScreen #septemberIntroOverlay .september-intro-title{
+  position:absolute!important;
+  inset:0!important;
+  z-index:15!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:22px!important;
+  color:#fff3e7!important;
+  font-size:clamp(42px,12vw,92px)!important;
+  line-height:.9;
+  text-align:center;
+  letter-spacing:-.06em!important;
+  background:radial-gradient(circle at center,rgba(4,5,7,.74),rgba(4,5,7,.32) 46%,rgba(4,5,7,.08) 74%)!important;
+  text-shadow:-2px 0 rgba(255,191,114,.18),2px 0 rgba(255,118,194,.14),0 18px 52px rgba(0,0,0,.55)!important;
+}
+#orbitScreen #septemberIntroOverlay .september-intro-ascii{
+  z-index:11;
+}
+
+/* JS drives the ticker so it keeps moving even when CSS motion preferences stop animations. */
+.september-ticker-track{
+  animation:none!important;
+  will-change:transform;
+  transform:translate3d(0,0,0);
+}
+
+@media(max-width:520px){
+  #orbitScreen #septemberIntroOverlay.september-intro-overlay{
+    top:54%!important;
+    width:88vw!important;
+    height:min(54svh,480px)!important;
+    min-height:290px;
+    border-radius:20px!important;
+  }
+}
+
+
+/* =========================================================
+   V34 — one-at-a-time gift shop checkout + reveal
+   ========================================================= */
+.gift-item{overflow:hidden;cursor:pointer}
+.gift-visual{position:relative;display:grid;place-items:center;width:112px;height:92px;margin-top:2px}
+.gift-reward-wrap{position:absolute;inset:-5px -10px -2px;display:grid;place-items:center;opacity:0;transform:translateY(18px) scale(.72) rotate(-3deg);pointer-events:none;transition:opacity .45s ease,transform .62s cubic-bezier(.17,.84,.25,1.2),filter .45s ease;filter:blur(4px)}
+.gift-reward-image{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:10px;filter:drop-shadow(0 12px 16px rgba(0,0,0,.35))}
+.gift-item.opened .gift-box{opacity:.16;transform:translateY(18px) rotate(-7deg) scale(.78);filter:blur(1px);transition:opacity .36s ease,transform .5s ease,filter .36s ease}
+.gift-item.opened .gift-reward-wrap{opacity:1;transform:translateY(-4px) scale(1) rotate(0);filter:none}
+.gift-item.just-opened .gift-reward-wrap{animation:giftRewardPop .82s cubic-bezier(.17,.84,.25,1.25) both}
+.gift-item.opened{border-color:rgba(255,216,152,.31);background:linear-gradient(180deg,rgba(255,202,125,.12),rgba(77,29,10,.22))}
+.gift-item.opened .gift-item-name::after{content:" · OPEN";color:rgba(255,211,142,.72);font-size:8px;letter-spacing:1.2px}
+.gift-item.opened .gift-item-price{opacity:.46;text-decoration:line-through;text-decoration-thickness:1px}
+.gift-item.paying{pointer-events:none;animation:giftPaymentPulse .7s ease-in-out infinite alternate}
+.gift-item.paying .gift-box{animation:giftBoxPay .5s ease-in-out infinite alternate}
+.gift-item.selected:not(.opened){border-color:rgba(255,216,152,.62);background:linear-gradient(180deg,rgba(255,183,87,.2),rgba(111,43,12,.34));box-shadow:0 0 0 2px rgba(238,117,30,.16),0 16px 34px rgba(0,0,0,.18),inset 0 -10px 24px rgba(0,0,0,.16)}
+.gift-item.selected:not(.opened)::after{content:"SELECTED";position:absolute;right:8px;top:8px;padding:5px 7px;border-radius:999px;background:#f08a2d;color:#2d1005;font:900 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1px;box-shadow:0 5px 12px rgba(0,0,0,.2)}
+.counter-register{align-items:center}
+.counter-register-selection{margin-top:5px;color:rgba(255,230,191,.84);font:800 11px/1.25 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.1px;text-transform:uppercase}
+.gift-shop-pay{display:block;width:100%;min-height:50px;margin-top:14px;border:1px solid rgba(255,221,164,.28);border-radius:12px;background:linear-gradient(180deg,#ef8a2c,#bb4b18);color:#fff1d5;font:900 14px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:3px;box-shadow:0 12px 28px rgba(44,12,2,.25),inset 0 1px rgba(255,245,218,.25);transition:transform .16s ease,opacity .16s ease,filter .16s ease}
+.gift-shop-pay:not(:disabled):active{transform:translateY(2px) scale(.992)}
+.gift-shop-pay:disabled{opacity:.34;filter:saturate(.55);cursor:not-allowed}
+.gift-shop-receipt{min-height:28px;padding:11px 4px 0;text-align:center;color:rgba(255,222,174,.65);font:700 9px/1.35 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:1.5px;text-transform:uppercase}
+.counter-reset{display:none!important}
+@keyframes giftRewardPop{0%{opacity:0;transform:translateY(24px) scale(.55) rotate(-8deg);filter:blur(7px)}52%{opacity:1;transform:translateY(-12px) scale(1.12) rotate(2deg);filter:blur(0)}100%{opacity:1;transform:translateY(-4px) scale(1) rotate(0);filter:blur(0)}}
+@keyframes giftPaymentPulse{from{filter:brightness(1)}to{filter:brightness(1.16)}}
+@keyframes giftBoxPay{from{transform:rotate(-4deg) translateY(0)}to{transform:rotate(3deg) translateY(-4px)}}
+@media(min-width:700px){.gift-visual{width:132px;height:108px}}
