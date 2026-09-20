@@ -78,10 +78,13 @@ const interludeTyping=$("#interludeTyping");
 const interludeForm=$("#interludeForm");
 const interludeInput=$("#interludeInput");
 const interludeSendButton=$("#interludeSendButton");
+const skipChatOne=$("#skipChatOne");
+const skipChatTwo=$("#skipChatTwo");
 
 const treeHub=$("#treeHub");
 const treeMemoryPage=$("#treeMemoryPage");
 const treeMemoryIndex=$("#treeMemoryIndex");
+const treeMemoryTitle=$("#treeMemoryTitle");
 const enterWellFromTree=$("#enterWellFromTree");
 
 const orbitScreen=$("#orbitScreen");
@@ -93,15 +96,36 @@ let finished=false;
 let secondStep=0;
 let secondBusy=false;
 let secondFinished=false;
+let chatOneSkipped=false;
+let chatTwoSkipped=false;
 let treeAtmosphereStarted=false;
 let treeMemoryAtmosphereStarted=false;
 const visitedMemories=new Set();
 
 const memoryPhotoData={
   "01":{
+    title:"Nemocnice",
     src:"photos/memory01_feature.jpg",
     caption:"click on it",
     text:"To byl začátek. Hodně cítů- měl jsem radost se s tebou psát. Přemýšlel jsem o tobě i když jsme se nepsali, s velkou radosti jsem se podíval na Dinner in America. Radiace štěstí a velká chuť k životu přinutila mě zapomenout o tom, co je úzkost."
+  },
+  "02":{
+    title:"Myval",
+    src:"photos/memory02_feature.jpg",
+    caption:"click on it",
+    text:"Sotva jsem vyběžel z nemocnici a už jsme šli do kina. Ještě jsem nic nechápal a jen doufal že to dopadne dobře. Byl den žen, takže jsem překonal sebe a koupil jsem ti.. myvala. Chtěl jsem i kytky, ale to bylo až moc, podle mě. Od tebe jsem dostal kočičku, kterou jsi udělala sáma. To znamenalo hodně, zejména teď pro mě, když vzpomínám.\nA jsem rád, že on ti připomíná mě, kdy nejsme spolu. Částice mě :3"
+  },
+  "03":{
+    title:"Pusy pusinky",
+    src:"photos/memory03_feature.jpg",
+    caption:"click on it",
+    text:"A už mnou naplánované rande! Snažil jsem se všechno udělat na vyšší úrovni, a podle mě, podařilo se mi. Nezapomenutelný den, žejo? Polibky. Miluji tě líbat. Miluju tě!"
+  },
+  "04":{
+    title:"Schrödingerovy koláže",
+    src:"photos/memory04_feature.jpg",
+    caption:"click on it",
+    text:"Hmmm. Dělali jsme hodně kolážu! I když de facto první v létě. Ale ten *primarní* si pamatuješ dobře, jo? Hodně síl to zabralo na zpětné cestě. Od té doby miluuujeme dělat koláže!"
   }
 };
 
@@ -157,6 +181,7 @@ async function sendPremadeReply(text){
   typing.classList.remove('hidden');
 
   await sleep(Math.min(1550,640+text.length*9));
+  if(chatOneSkipped) return;
 
   typing.classList.add('hidden');
   addMessage(text,'them',true);
@@ -211,6 +236,7 @@ form.addEventListener('submit',async e=>{
   addMessage(corrected,'me',false);
 
   if(current?.reply) await sendPremadeReply(current.reply);
+  if(chatOneSkipped) return;
 
   step++;
   if(step>=conversation.length){
@@ -239,12 +265,15 @@ async function fadeSwap(fromEl,toEl,duration=620){
 
 async function startSecondChat(){
   await unlockAudio();
+  skipChatOne.disabled=true;
   await fadeSwap(chatIntro,chatInterlude,620);
 
   interludeMessages.innerHTML='';
   secondStep=0;
   secondBusy=false;
   secondFinished=false;
+  chatTwoSkipped=false;
+  skipChatTwo.disabled=false;
   interludeForm.style.display='grid';
   chatInterlude.classList.remove('green-ending');
 
@@ -262,13 +291,16 @@ async function sendSecondReplies(replies){
   interludeSendButton.disabled=true;
 
   for(const reply of replies){
+    if(secondFinished||chatTwoSkipped) return;
     interludeTyping.classList.remove('hidden');
     await sleep(Math.min(1650,650+reply.length*9));
+    if(secondFinished||chatTwoSkipped) return;
     interludeTyping.classList.add('hidden');
     addMessageTo(interludeMessages,interludeBody,reply,'them',true);
     await sleep(260);
   }
 
+  if(secondFinished||chatTwoSkipped) return;
   interludeInput.disabled=false;
   interludeSendButton.disabled=false;
   secondBusy=false;
@@ -292,6 +324,7 @@ interludeForm.addEventListener('submit',async e=>{
   if(current?.replies?.length){
     await sendSecondReplies(current.replies);
   }
+  if(secondFinished||chatTwoSkipped) return;
 
   secondStep++;
   if(secondStep>=secondConversation.length){
@@ -299,8 +332,36 @@ interludeForm.addEventListener('submit',async e=>{
   }
 });
 
-async function finishSecondChat(){
+skipChatOne.addEventListener('click',async()=>{
+  if(chatOneSkipped) return;
+  chatOneSkipped=true;
+  finished=true;
+  busy=false;
+  input.blur();
+  typing.classList.add('hidden');
+  form.style.display='none';
+  await startSecondChat();
+});
+
+skipChatTwo.addEventListener('click',async()=>{
+  if(chatTwoSkipped||secondFinished) return;
+  chatTwoSkipped=true;
   secondFinished=true;
+  secondBusy=false;
+  interludeInput.blur();
+  interludeTyping.classList.add('hidden');
+  interludeForm.style.display='none';
+  skipChatTwo.disabled=true;
+  chatInterlude.classList.add('green-ending');
+  await sleep(320);
+  await fadeSwap(chatInterlude,treeHub,480);
+  enterTreeHub();
+});
+
+async function finishSecondChat(){
+  if(chatTwoSkipped) return;
+  secondFinished=true;
+  skipChatTwo.disabled=true;
   interludeInput.blur();
   interludeInput.disabled=true;
   interludeSendButton.disabled=true;
@@ -399,6 +460,7 @@ function updateTreeCompletion(){
 function openTreeMemory(memory){
   treeMemoryIndex.textContent=memory;
   treeMemoryPage.dataset.memory=memory;
+  treeMemoryTitle.textContent=memoryPhotoData[memory]?.title||`Memory ${memory}`;
   renderMemoryFeature(memory);
   treeHub.classList.add('hidden-screen');
   treeMemoryPage.classList.remove('hidden-screen');

@@ -11,6 +11,7 @@
 
 <section id="chatIntro" class="chat-screen">
   <div class="chat-background"></div>
+  <button id="skipChatOne" class="chat-skip" type="button">SKIP</button>
   <div class="chat-vignette"></div>
 
   <header class="chat-header">
@@ -43,13 +44,14 @@
     <button type="button" class="composer-icon">◌</button>
     <button type="button" class="composer-icon">▧</button>
     <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="sendButton" class="send-btn" aria-label="Send"><img src="photos/send_button.png" alt=""></button>
+    <button type="submit" id="sendButton" class="send-btn">Send</button>
   </form>
 </section>
 
 
 <section id="chatInterlude" class="chat-screen hidden-screen">
   <div class="chat-background"></div>
+  <button id="skipChatTwo" class="chat-skip" type="button">SKIP</button>
   <div class="chat-vignette"></div>
 
   <header class="chat-header">
@@ -77,7 +79,7 @@
     <button type="button" class="composer-icon">◌</button>
     <button type="button" class="composer-icon">▧</button>
     <button type="button" class="composer-icon">☺</button>
-    <button type="submit" id="interludeSendButton" class="send-btn" aria-label="Send"><img src="photos/send_button.png" alt=""></button>
+    <button type="submit" id="interludeSendButton" class="send-btn">Send</button>
   </form>
 </section>
 
@@ -124,13 +126,11 @@
       <img src="photos/memory01_d.png" alt="">
       <img src="photos/memory01_e.png" alt="">
     </div>
-    <div id="treeMemoryIndex" class="tree-memory-index">01</div>
-    <div id="memoryFeatureMount" class="memory-feature-mount"></div>
-    <div class="tree-memory-grid">
-      <div></div>
-      <div></div>
-      <div></div>
+    <div class="tree-memory-heading">
+      <div id="treeMemoryIndex" class="tree-memory-index">01</div>
+      <div id="treeMemoryTitle" class="tree-memory-title">Nemocnice</div>
     </div>
+    <div id="memoryFeatureMount" class="memory-feature-mount"></div>
   </main>
 </section>
 
