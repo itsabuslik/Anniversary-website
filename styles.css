@@ -107,8 +107,22 @@ button{cursor:pointer}
 .month-topbar{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;padding:12px 12px 0;gap:8px}
 .back-orbit{min-height:34px;padding:9px 12px;border-radius:999px;border:1px solid rgba(141,255,230,.22);background:rgba(2,7,8,.72);color:#daf5ee;font-size:10px;letter-spacing:1.7px;backdrop-filter:blur(8px)}
 .month-layout{position:relative;z-index:14;display:grid;grid-template-columns:1fr;gap:20px;padding:18px 16px max(80px,calc(34px + env(safe-area-inset-bottom)));min-height:calc(100svh + 1px)}.month-sidebar{display:flex;align-items:flex-end;gap:16px;border-bottom:1px solid rgba(112,255,225,.08);padding-bottom:16px}.month-index{font-size:52px;line-height:.8;letter-spacing:-.08em;color:#d8e4e1;text-shadow:-2px 0 rgba(0,215,255,.2),2px 0 rgba(255,45,145,.16)}.month-range{color:rgba(153,255,228,.4);font-size:9px;letter-spacing:3px}.tiny-map{display:grid;grid-template-columns:repeat(2,18px);gap:6px;margin-left:auto}.tiny-map i{width:18px;height:12px;border:1px solid rgba(118,255,226,.18);background:rgba(0,20,20,.18);animation:tinyBlink 4s steps(2,end) infinite}.tiny-map i:nth-child(2n){animation-delay:1.2s}
-.month-main{max-width:960px}.month-title{position:relative;margin-top:16px;font-size:clamp(56px,16vw,145px);line-height:.8;letter-spacing:-.075em;color:#dce7e5}.month-title::before,.month-title::after{content:attr(data-text);position:absolute;inset:0;pointer-events:none;opacity:.18}.month-title::before{color:#00d9ff;transform:translateX(-3px);clip-path:inset(0 0 50% 0)}.month-title::after{color:#ff3f9c;transform:translateX(3px);clip-path:inset(50% 0 0 0)}
-.month-photo-grid{margin-top:28px;display:grid;grid-template-columns:1fr;grid-template-rows:220px 220px 170px;gap:13px}.month-photo{position:relative;overflow:hidden;border:1px solid rgba(116,255,226,.12);background:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0 1px,transparent 1px 4px),radial-gradient(circle at 30% 30%,rgba(66,255,224,.06),transparent 32%),rgba(0,8,10,.64);color:rgba(221,241,237,.66);display:grid;place-items:center;font-size:10px;letter-spacing:3px;box-shadow:inset 0 0 45px rgba(0,0,0,.58);transition:border-color .25s,filter .25s,transform .25s;touch-action:pan-y}.month-photo:active,.month-photo:hover{border-color:rgba(116,255,226,.34);filter:brightness(1.2);transform:translateY(-2px)}.month-photo::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 0 46%,rgba(70,255,229,.07) 47% 49%,transparent 50%);transform:translateX(-100%);animation:photoScan 5s linear infinite}
+.month-main{position:relative;max-width:960px;overflow:hidden}.month-title{position:relative;z-index:2;margin-top:16px;font-size:clamp(56px,16vw,145px);line-height:.8;letter-spacing:-.075em;color:#dce7e5}.month-title::before,.month-title::after{content:attr(data-text);position:absolute;inset:0;pointer-events:none;opacity:.18}.month-title::before{color:#00d9ff;transform:translateX(-3px);clip-path:inset(0 0 50% 0)}.month-title::after{color:#ff3f9c;transform:translateX(3px);clip-path:inset(50% 0 0 0)}
+.month-background{position:absolute;inset:0;z-index:0;overflow:hidden;border-radius:28px;opacity:.40;pointer-events:none}.month-background img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(.95) contrast(1.03)}.month-background::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,5,6,.62),rgba(2,5,6,.68) 35%,rgba(2,5,6,.78) 100%)}
+.month-carousel{position:relative;z-index:2;margin-top:28px;padding:10px 0 22px}.month-viewport{overflow:hidden;border-radius:24px}.month-track{display:flex;transition:transform .42s cubic-bezier(.18,.8,.22,1);will-change:transform}.month-slide{flex:0 0 100%;min-width:100%;padding-right:2px}.month-card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:100%;padding:16px;border:1px solid rgba(116,255,226,.14);border-radius:24px;background:linear-gradient(180deg,rgba(4,11,12,.60),rgba(4,11,12,.76));box-shadow:inset 0 0 42px rgba(0,0,0,.46),0 18px 44px rgba(0,0,0,.22);backdrop-filter:blur(3px)}.month-card-meta{display:flex;align-items:center;justify-content:space-between;gap:8px;color:rgba(214,244,236,.78);font-size:10px;letter-spacing:2.4px;text-transform:uppercase}.month-card-date{color:rgba(160,255,234,.72)}.month-card-count{color:rgba(222,241,238,.44)}.month-card-title{margin:0;color:#eef7f4;font-size:clamp(24px,6vw,38px);line-height:.95;letter-spacing:-.04em}.month-card-photo{display:block;width:100%;padding:0;border:1px solid rgba(168,255,239,.18);border-radius:18px;overflow:hidden;background:rgba(0,10,12,.52);box-shadow:0 15px 45px rgba(0,0,0,.34);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}.month-card-photo:hover,.month-card-photo:active{transform:translateY(-2px) scale(1.01);border-color:rgba(168,255,239,.34);box-shadow:0 18px 54px rgba(0,0,0,.46)}.month-card-photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.month-section-photos{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+.month-section-photo-item{
+  margin:0;
+  min-width:0;
+}
+.month-section-photo-item .month-card-photo img{
+  aspect-ratio:4/3;
+}
+.month-card-caption{color:rgba(225,244,228,.64);font-size:10px;letter-spacing:2.2px;text-transform:lowercase;text-align:center}.month-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:3;display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid rgba(141,255,230,.22);background:rgba(2,7,8,.82);color:#daf5ee;font-size:20px;line-height:1;backdrop-filter:blur(8px);box-shadow:0 8px 25px rgba(0,0,0,.28)}.month-nav-left{left:8px}.month-nav-right{right:8px}.month-nav.hidden{display:none}
 
 
 /* animations */
@@ -131,7 +145,7 @@ button{cursor:pointer}
   .month-sidebar{display:block;border-right:1px solid rgba(112,255,225,.08);border-bottom:0;padding-right:22px;padding-bottom:0}
   .month-index{font-size:74px}
   .tiny-map{grid-template-columns:repeat(2,22px);margin:32px 0 0}.tiny-map i{width:22px;height:14px}
-  .month-photo-grid{grid-template-columns:1.18fr .82fr;grid-template-rows:270px 225px}.photo-a{grid-row:1 / 3}
+  .month-carousel{padding:18px 44px 28px}.month-card{padding:20px 20px 22px}.month-card-title{font-size:clamp(28px,4vw,44px)}.month-card-photo img{aspect-ratio:16/10}.month-nav-left{left:0}.month-nav-right{right:0}
   .sphere{width:108px;height:108px}.orb-no{top:18px}.sphere-label{font-size:11px}
 }
 @media(max-width:420px){
@@ -325,12 +339,13 @@ button{cursor:pointer}
   text-align:center;
   font-family:"Courier New",monospace;
   font-size:9px;
-  font-weight:700;
+  font-weight:800;
   font-variant-numeric:tabular-nums;
   letter-spacing:0;
   line-height:1;
-  opacity:.76;
-  text-shadow:0 0 8px rgba(138,255,154,.5);
+  color:#050805;
+  opacity:.96;
+  text-shadow:0 1px 2px rgba(255,255,255,.24);
   pointer-events:none;
 }
 .bush::before{
@@ -451,11 +466,10 @@ button{cursor:pointer}
   border-radius:18px;
   box-shadow:0 0 0 1px rgba(255,255,255,.035);
 }
-.tree-memory-photo-wall img:nth-child(1){left:-6%;top:1%;width:59%;height:24%}
-.tree-memory-photo-wall img:nth-child(2){right:-8%;top:8%;width:59%;height:25%}
-.tree-memory-photo-wall img:nth-child(3){left:-5%;top:31%;width:58%;height:28%}
-.tree-memory-photo-wall img:nth-child(4){right:-7%;top:42%;width:56%;height:27%}
-.tree-memory-photo-wall img:nth-child(5){left:5%;bottom:1%;width:90%;height:31%}
+.tree-memory-photo-wall img:nth-child(1){left:-6%;top:1%;width:59%;height:26%}
+.tree-memory-photo-wall img:nth-child(2){right:-8%;top:9%;width:59%;height:28%}
+.tree-memory-photo-wall img:nth-child(3){left:-5%;top:35%;width:59%;height:31%}
+.tree-memory-photo-wall img:nth-child(4){right:-7%;bottom:1%;width:68%;height:36%}
 .tree-memory-heading{
   position:relative;
   z-index:1;
@@ -623,14 +637,159 @@ body.memory-overlay-open{overflow:hidden!important}
 }
 
 @media(min-width:780px){
-  .tree-memory-photo-wall img:nth-child(1){left:-2%;top:2%;width:43%;height:33%}
-  .tree-memory-photo-wall img:nth-child(2){right:-3%;top:4%;width:45%;height:31%}
-  .tree-memory-photo-wall img:nth-child(3){left:1%;top:36%;width:41%;height:33%}
-  .tree-memory-photo-wall img:nth-child(4){right:1%;top:40%;width:41%;height:30%}
-  .tree-memory-photo-wall img:nth-child(5){left:17%;bottom:1%;width:66%;height:28%}
+  .tree-memory-photo-wall img:nth-child(1){left:-2%;top:2%;width:43%;height:34%}
+  .tree-memory-photo-wall img:nth-child(2){right:-3%;top:4%;width:45%;height:33%}
+  .tree-memory-photo-wall img:nth-child(3){left:1%;top:38%;width:44%;height:36%}
+  .tree-memory-photo-wall img:nth-child(4){right:1%;bottom:1%;width:52%;height:38%}
 }
 
 @media(min-width:780px){
   .tree-memory-heading{gap:18px; margin-bottom:16px;}
   .tree-memory-title{margin-bottom:14px; font-size:clamp(34px,4vw,62px);}
+}
+
+
+/* Full-screen bridge image between chat 2 and the tree */
+.memory-flash{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  width:100%;
+  height:100dvh;
+  overflow:hidden;
+  background:#000;
+}
+.memory-flash-video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  background:#000;
+  opacity:1;
+  transform:scale(1.015);
+  animation:memoryFlashIn .42s ease both;
+}
+
+.memory-video-skip{
+  position:absolute;
+  z-index:3;
+  top:max(12px,env(safe-area-inset-top));
+  right:12px;
+  min-width:58px;
+  min-height:32px;
+  padding:8px 12px;
+  border:1px solid rgba(255,255,255,.30);
+  border-radius:999px;
+  background:rgba(0,0,0,.42);
+  color:rgba(255,255,255,.88);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:1.5px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  touch-action:manipulation;
+}
+.memory-video-skip:active{transform:scale(.96);background:rgba(0,0,0,.62)}
+.memory-flash-shade{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:radial-gradient(circle at center,transparent 48%,rgba(0,0,0,.20) 100%);
+}
+.memory-flash.is-leaving{
+  animation:memoryFlashOut .72s ease forwards;
+  pointer-events:none;
+}
+@keyframes memoryFlashIn{
+  0%{opacity:0;filter:brightness(2.1) blur(2px);transform:scale(1.04)}
+  34%{opacity:1;filter:brightness(1.35) blur(0)}
+  100%{opacity:1;filter:brightness(1);transform:scale(1.015)}
+}
+@keyframes memoryFlashOut{
+  from{opacity:1;filter:brightness(1)}
+  to{opacity:0;filter:brightness(.7)}
+}
+
+
+/* Sequential memory/month unlocking */
+.bush.locked{
+  opacity:.48;
+  filter:saturate(.45) brightness(.72);
+}
+.bush.locked::before{
+  background:rgba(126,148,128,.74);
+  box-shadow:0 0 7px rgba(112,155,118,.24),0 0 18px rgba(80,120,86,.12);
+  animation:none;
+}
+.bush.locked::after{border-color:rgba(150,175,153,.13)}
+.bush.locked:active::before,.bush.locked:hover::before,.bush.locked:focus-visible::before{
+  width:13px;height:13px;
+  background:rgba(126,148,128,.74);
+  box-shadow:0 0 7px rgba(112,155,118,.24),0 0 18px rgba(80,120,86,.12);
+}
+.bush.locked:active::after,.bush.locked:hover::after,.bush.locked:focus-visible::after{
+  width:34px;height:34px;border-color:rgba(150,175,153,.13);
+}
+.sphere.locked{
+  opacity:.38;
+  filter:grayscale(.66) brightness(.68);
+  cursor:not-allowed;
+}
+.sphere.locked:hover,.sphere.locked:active,.sphere.locked.dragging{
+  transform:translate(-50%,-50%);
+  filter:grayscale(.66) brightness(.68);
+}
+.locked-notice{
+  position:fixed;
+  z-index:300;
+  left:50%;
+  bottom:max(28px,calc(20px + env(safe-area-inset-bottom)));
+  transform:translate(-50%,12px) scale(.96);
+  padding:11px 18px;
+  border:1px solid rgba(221,255,224,.25);
+  border-radius:999px;
+  background:rgba(2,12,5,.88);
+  color:#f3f7f3;
+  font-family:"Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  font-size:15px;
+  font-style:italic;
+  letter-spacing:.02em;
+  white-space:nowrap;
+  box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 28px rgba(102,255,127,.08);
+  backdrop-filter:blur(10px);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .2s ease,transform .2s ease;
+}
+.locked-notice.show{
+  opacity:1;
+  transform:translate(-50%,0) scale(1);
+}
+
+@media(min-width:780px){
+  .month-section-photos{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    align-items:start;
+  }
+  .month-section-photo-item .month-card-photo img{
+    aspect-ratio:3/4;
+  }
+}
+
+
+.month-card-photo video{
+  display:block;
+  width:100%;
+  aspect-ratio:4/3;
+  object-fit:cover;
+  background:#020503;
+  pointer-events:none;
+}
+.memory-photo-dialog video.memory-photo-large{
+  width:100%;
+  max-height:82dvh;
+  object-fit:contain;
+  background:#020503;
 }

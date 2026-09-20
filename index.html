@@ -83,6 +83,13 @@
   </form>
 </section>
 
+
+<section id="memoryFlash" class="memory-flash hidden-screen" aria-label="Memory video">
+  <video id="memoryBridgeVideo" class="memory-flash-video" src="videos/memory_bridge.mp4" playsinline preload="metadata"></video>
+  <div class="memory-flash-shade"></div>
+  <button id="memoryVideoSkip" class="memory-video-skip" type="button">SKIP</button>
+</section>
+
 <section id="treeHub" class="tree-screen hidden-screen">
   <canvas id="treeCanvas" class="well-canvas" aria-hidden="true"></canvas>
   <div class="tree-green-vignette"></div>
@@ -124,7 +131,6 @@
       <img src="photos/memory01_b.png" alt="">
       <img src="photos/memory01_c.png" alt="">
       <img src="photos/memory01_d.png" alt="">
-      <img src="photos/memory01_e.png" alt="">
     </div>
     <div class="tree-memory-heading">
       <div id="treeMemoryIndex" class="tree-memory-index">01</div>
@@ -138,6 +144,7 @@
   <button id="memoryPhotoClose" class="memory-photo-close" type="button" aria-label="Close">×</button>
   <figure class="memory-photo-dialog">
     <img id="memoryPhotoLarge" class="memory-photo-large" src="" alt="">
+    <video id="memoryVideoLarge" class="memory-photo-large hidden" src="" playsinline controls preload="metadata"></video>
     <figcaption id="memoryPhotoText" class="memory-photo-text"></figcaption>
   </figure>
 </div>
@@ -208,14 +215,20 @@
     <main class="month-main">
       <h2 id="monthTitle" class="month-title" data-text="APRIL">APRIL</h2>
 
-      <div class="month-photo-grid">
-        <div class="month-photo photo-a" aria-hidden="true"></div>
-        <div class="month-photo photo-b" aria-hidden="true"></div>
-        <div class="month-photo photo-c" aria-hidden="true"></div>
+      <div id="monthBackground" class="month-background hidden" aria-hidden="true"></div>
+
+      <div class="month-carousel">
+        <button id="monthPrev" class="month-nav month-nav-left hidden" type="button" aria-label="Previous section">←</button>
+        <div class="month-viewport">
+          <div id="monthTrack" class="month-track"></div>
+        </div>
+        <button id="monthNext" class="month-nav month-nav-right hidden" type="button" aria-label="Next section">→</button>
       </div>
     </main>
   </div>
 </section>
+
+<div id="lockedNotice" class="locked-notice" role="status" aria-live="polite">ještě není čas</div>
 
 <script src="script.js"></script>
 </body>

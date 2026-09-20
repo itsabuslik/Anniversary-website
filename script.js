@@ -59,6 +59,79 @@ const monthData={
   september:{index:"06",title:"SEPTEMBER"}
 };
 
+const monthStoryData={
+  april:{
+    bg:"photos/april_bg.jpg",
+    sections:[
+      {
+        date:"3. dubna",
+        title:"umění",
+        photos:[
+          {
+            image:"photos/april_01.jpg",
+            caption:"click on it",
+            text:"v reelových tradicích vykráčeli jsme kreslit.. khe-khe, malovat njeco."
+          },
+          {
+            image:"photos/april_02.jpg",
+            caption:"click on it",
+            text:"řek bych, ze tento den jsem moc inspiraci neměl. První pokus malovat, žádné nápady a nejhorší věci se vylili na plátno. Jsem byl opravdu rozčarovaný. Ty jsi ale mě podpořila tak že jsem to nechal u tebe, a to že to dodnes stojí u tebe na stole těší mě pokaždé, co to vídím. Děkuju ti, to znamená hodně pro mě."
+          },
+          {
+            image:"photos/april_03.jpg",
+            caption:"click on it",
+            text:"tvoje kačečka! Miluju ji, velmi pěkná. A že to je kačečka! Lowk to jsi ty, Káťeňka, ale ty jsi ještě i kočička, Cat-herine. Ale kačečka taky. Velmi pěkná"
+          }
+        ]
+      },
+      {
+        date:"4. dubna",
+        title:"",
+        photos:[
+          {
+            image:"photos/april_04.jpg",
+            caption:"click on it",
+            text:"ten den jsme poprvé pili. To se přeneslo... na dlouhou dobu! Teďka jsem opilý(z tebe)"
+          },
+          {
+            image:"photos/april_05.jpg",
+            caption:"click on it",
+            text:"čááááp! Milovaný můj čáp. Děkuju!"
+          }
+        ]
+      },
+      {
+        date:"19. dubna",
+        title:"Cesta do Děčína",
+        photos:[
+          {
+            image:"photos/april_06.jpg",
+            caption:"click on it",
+            text:"naše první 12 hodin spolu. I po těch to stejně nám bylo málo."
+          },
+          {
+            image:"photos/april_07.jpg",
+            caption:"",
+            text:""
+          }
+        ]
+      },
+      {
+        date:"26. dubna",
+        title:"",
+        photos:[
+          {
+            type:"video",
+            video:"videos/april_26.mp4",
+            caption:"click on it",
+            text:"děkuju že projevuješ zájem o mě, můj jazyk :3 to mě velmi velmi velmi potěšilo!!!"
+          }
+        ]
+      }
+    ]
+  }
+};
+
 const $=(s,r=document)=>r.querySelector(s);
 const $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -81,11 +154,16 @@ const interludeSendButton=$("#interludeSendButton");
 const skipChatOne=$("#skipChatOne");
 const skipChatTwo=$("#skipChatTwo");
 
+const memoryFlash=$("#memoryFlash");
+const memoryBridgeVideo=$("#memoryBridgeVideo");
+const memoryVideoSkip=$("#memoryVideoSkip");
 const treeHub=$("#treeHub");
 const treeMemoryPage=$("#treeMemoryPage");
 const treeMemoryIndex=$("#treeMemoryIndex");
 const treeMemoryTitle=$("#treeMemoryTitle");
 const enterWellFromTree=$("#enterWellFromTree");
+const lockedNotice=$("#lockedNotice");
+let lockedNoticeTimer=null;
 
 const orbitScreen=$("#orbitScreen");
 const monthPage=$("#monthPage");
@@ -100,7 +178,24 @@ let chatOneSkipped=false;
 let chatTwoSkipped=false;
 let treeAtmosphereStarted=false;
 let treeMemoryAtmosphereStarted=false;
-const visitedMemories=new Set();
+
+const TREE_MEMORY_ORDER=["01","02","03","04"];
+const MONTH_ORDER=["april","may","june","july","august","september"];
+
+function readProgress(key,max){
+  try{
+    const value=Number.parseInt(localStorage.getItem(key)||"0",10);
+    return Number.isFinite(value)?Math.max(0,Math.min(max,value)):0;
+  }catch(err){
+    return 0;
+  }
+}
+function writeProgress(key,value){
+  try{localStorage.setItem(key,String(value));}catch(err){}
+}
+
+let treeSeenCount=readProgress("anniversary_tree_seen_v15",TREE_MEMORY_ORDER.length);
+let monthSeenCount=readProgress("anniversary_month_seen_v15",MONTH_ORDER.length);
 
 const memoryPhotoData={
   "01":{
@@ -132,6 +227,7 @@ const memoryPhotoData={
 const memoryFeatureMount=$("#memoryFeatureMount");
 const memoryPhotoOverlay=$("#memoryPhotoOverlay");
 const memoryPhotoLarge=$("#memoryPhotoLarge");
+const memoryVideoLarge=$("#memoryVideoLarge");
 const memoryPhotoText=$("#memoryPhotoText");
 const memoryPhotoClose=$("#memoryPhotoClose");
 
@@ -354,8 +450,48 @@ skipChatTwo.addEventListener('click',async()=>{
   skipChatTwo.disabled=true;
   chatInterlude.classList.add('green-ending');
   await sleep(320);
-  await fadeSwap(chatInterlude,treeHub,480);
+  chatInterlude.classList.add('bridge-fade-out');
+  await sleep(480);
+  await showMemoryFlash();
+});
+
+async function showMemoryFlash(){
+  chatInterlude.classList.add('hidden-screen');
+  chatInterlude.classList.remove('bridge-fade-out');
+  memoryFlash.classList.remove('hidden-screen','is-leaving');
+
+  memoryBridgeVideo.pause();
+  memoryBridgeVideo.currentTime=0;
+  memoryBridgeVideo.muted=false;
+
+  try{
+    await memoryBridgeVideo.play();
+  }catch(err){
+    // Mobile browsers may reject sound autoplay after a delayed transition.
+    // Fall back to muted playback rather than leaving a frozen frame.
+    memoryBridgeVideo.muted=true;
+    memoryBridgeVideo.play().catch(()=>{});
+  }
+}
+
+async function leaveMemoryFlash(){
+  if(memoryFlash.classList.contains('hidden-screen') || memoryFlash.classList.contains('is-leaving')) return;
+  memoryFlash.classList.add('is-leaving');
+  memoryBridgeVideo.pause();
+  await sleep(720);
+  memoryFlash.classList.add('hidden-screen');
+  memoryFlash.classList.remove('is-leaving');
+  treeHub.classList.remove('hidden-screen');
+  treeHub.classList.add('bridge-fade-in');
+  await sleep(650);
+  treeHub.classList.remove('bridge-fade-in');
   enterTreeHub();
+}
+
+memoryBridgeVideo.addEventListener('ended',leaveMemoryFlash);
+memoryVideoSkip.addEventListener('click',e=>{
+  e.stopPropagation();
+  leaveMemoryFlash();
 });
 
 async function finishSecondChat(){
@@ -373,8 +509,51 @@ async function finishSecondChat(){
 
   await sleep(1550);
   interludeForm.style.display='none';
-  await fadeSwap(chatInterlude,treeHub,720);
-  enterTreeHub();
+  chatInterlude.classList.add('bridge-fade-out');
+  await sleep(720);
+  await showMemoryFlash();
+}
+
+function showLockedNotice(){
+  if(!lockedNotice) return;
+  lockedNotice.classList.remove("show");
+  void lockedNotice.offsetWidth;
+  lockedNotice.classList.add("show");
+  clearTimeout(lockedNoticeTimer);
+  lockedNoticeTimer=setTimeout(()=>lockedNotice.classList.remove("show"),1450);
+}
+
+function isTreeMemoryLocked(memory){
+  const index=TREE_MEMORY_ORDER.indexOf(memory);
+  if(index<0) return true;
+  if(treeSeenCount>=TREE_MEMORY_ORDER.length) return false;
+  return index>treeSeenCount;
+}
+
+function updateTreeLocks(){
+  $$('.bush',treeHub).forEach(btn=>{
+    const memory=btn.dataset.memory;
+    const index=TREE_MEMORY_ORDER.indexOf(memory);
+    const locked=isTreeMemoryLocked(memory);
+    btn.classList.toggle('locked',locked);
+    btn.classList.toggle('visited',index>=0&&index<treeSeenCount);
+    btn.setAttribute('aria-disabled',locked?'true':'false');
+  });
+}
+
+function isMonthLocked(month){
+  const index=MONTH_ORDER.indexOf(month);
+  if(index<0) return true;
+  if(monthSeenCount>=MONTH_ORDER.length) return false;
+  return index>monthSeenCount;
+}
+
+function updateMonthLocks(){
+  $$('.sphere','#orbitStage').forEach(btn=>{
+    const locked=isMonthLocked(btn.dataset.month);
+    btn.classList.toggle('locked',locked);
+    btn.setAttribute('aria-disabled',locked?'true':'false');
+  });
 }
 
 function enterTreeHub(){
@@ -386,17 +565,28 @@ function enterTreeHub(){
   }
 
   startTreeNature();
+  updateTreeLocks();
   updateTreeCompletion();
 }
 
 $$('.bush',treeHub).forEach(btn=>{
   btn.addEventListener('click',async()=>{
+    const memory=btn.dataset.memory;
+    if(isTreeMemoryLocked(memory)){
+      showLockedNotice();
+      return;
+    }
+
     await unlockAudio();
     playOne(sounds.orbClick,.34,true);
 
-    const memory=btn.dataset.memory;
-    visitedMemories.add(memory);
-    btn.classList.add('visited');
+    const index=TREE_MEMORY_ORDER.indexOf(memory);
+    if(index===treeSeenCount&&treeSeenCount<TREE_MEMORY_ORDER.length){
+      treeSeenCount++;
+      writeProgress("anniversary_tree_seen_v15",treeSeenCount);
+    }
+
+    updateTreeLocks();
     updateTreeCompletion();
     openTreeMemory(memory);
   });
@@ -430,14 +620,31 @@ function renderMemoryFeature(memory){
 }
 
 function openMemoryPhoto(data){
-  memoryPhotoLarge.src=data.src;
-  memoryPhotoText.textContent=data.text;
+  const isVideo=data?.type==='video';
+  memoryPhotoLarge.classList.toggle('hidden',isVideo);
+  memoryVideoLarge.classList.toggle('hidden',!isVideo);
+
+  if(isVideo){
+    memoryPhotoLarge.removeAttribute('src');
+    memoryVideoLarge.src=data.src;
+    memoryVideoLarge.currentTime=0;
+    memoryVideoLarge.play().catch(()=>{});
+  }else{
+    memoryVideoLarge.pause();
+    memoryVideoLarge.removeAttribute('src');
+    memoryPhotoLarge.src=data.src;
+  }
+
+  memoryPhotoText.textContent=data.text||'';
+  memoryPhotoText.classList.toggle('hidden',!data.text);
   memoryPhotoOverlay.classList.remove('hidden');
   memoryPhotoOverlay.setAttribute('aria-hidden','false');
   document.body.classList.add('memory-overlay-open');
 }
 
 function closeMemoryPhoto(){
+  memoryVideoLarge.pause();
+  memoryVideoLarge.removeAttribute('src');
   memoryPhotoOverlay.classList.add('hidden');
   memoryPhotoOverlay.setAttribute('aria-hidden','true');
   document.body.classList.remove('memory-overlay-open');
@@ -452,9 +659,9 @@ document.addEventListener('keydown',e=>{
 });
 
 function updateTreeCompletion(){
-  if(visitedMemories.size>=4){
-    enterWellFromTree.classList.remove('hidden');
-  }
+  const complete=treeSeenCount>=TREE_MEMORY_ORDER.length;
+  enterWellFromTree.classList.toggle('hidden',!complete);
+  if(complete) updateTreeLocks();
 }
 
 function openTreeMemory(memory){
@@ -633,6 +840,7 @@ async function enterMemoryWell(){
     orbitScreen.style.opacity='1';
     $('#orbitTitle').classList.add('show');
     initializeOrbit();
+    updateMonthLocks();
     startAtmosphere($('#wellCanvas'),'orbit');
     startTrailSystem();
     startAmbience();
@@ -838,6 +1046,11 @@ function initializeOrbit(){
     setPos();
 
     el.addEventListener('pointerdown',async e=>{
+      if(isMonthLocked(o.month)){
+        e.preventDefault();
+        showLockedNotice();
+        return;
+      }
       await unlockAudio();
       const sr=rectOf();
       const px=e.clientX-sr.left;
@@ -988,15 +1201,145 @@ function startTrailSystem(){
 // MONTH PAGE — existing Memory Well pages
 const monthTitle=$('#monthTitle');
 const monthIndex=$('#monthIndex');
+const monthBackground=$('#monthBackground');
+const monthTrack=$('#monthTrack');
+const monthPrev=$('#monthPrev');
+const monthNext=$('#monthNext');
 let monthAtmosphereStarted=false;
+let currentMonthSlides=[];
+let currentMonthSlide=0;
+
+function renderMonthSlides(key){
+  const story=monthStoryData[key];
+  currentMonthSlides=story?.sections?.length?story.sections:[
+    {date:"",title:"",photos:[]},
+    {date:"",title:"",photos:[]},
+    {date:"",title:"",photos:[]}
+  ];
+  currentMonthSlide=0;
+
+  monthTrack.innerHTML="";
+  if(story?.bg){
+    monthBackground.innerHTML=`<img src="${story.bg}" alt="">`;
+    monthBackground.classList.remove("hidden");
+  }else{
+    monthBackground.innerHTML="";
+    monthBackground.classList.add("hidden");
+  }
+
+  currentMonthSlides.forEach((section,index)=>{
+    const slide=document.createElement("article");
+    slide.className="month-slide";
+
+    const card=document.createElement("div");
+    card.className="month-card";
+
+    const meta=document.createElement("div");
+    meta.className="month-card-meta";
+
+    const date=document.createElement("span");
+    date.className="month-card-date";
+    date.textContent=section.date||"";
+
+    const count=document.createElement("span");
+    count.className="month-card-count";
+    count.textContent=`${String(index+1).padStart(2,"0")} / ${String(currentMonthSlides.length).padStart(2,"0")}`;
+
+    meta.append(date,count);
+    card.appendChild(meta);
+
+    if(section.title){
+      const title=document.createElement("h3");
+      title.className="month-card-title";
+      title.textContent=section.title;
+      card.appendChild(title);
+    }
+
+    const photoList=document.createElement("div");
+    photoList.className="month-section-photos";
+
+    (section.photos||[]).forEach(photo=>{
+      const figure=document.createElement("figure");
+      figure.className="month-section-photo-item";
+
+      const button=document.createElement("button");
+      button.className="month-card-photo";
+      button.type="button";
+      button.setAttribute("aria-label",photo.type==='video'?"Open video":"Open photo");
+
+      if(photo.type==='video'){
+        const video=document.createElement("video");
+        video.src=photo.video;
+        video.muted=true;
+        video.playsInline=true;
+        video.preload="metadata";
+        button.appendChild(video);
+        button.addEventListener("click",()=>openMemoryPhoto({type:'video',src:photo.video,text:photo.text}));
+      }else{
+        const img=document.createElement("img");
+        img.src=photo.image;
+        img.alt="";
+        button.appendChild(img);
+        button.addEventListener("click",()=>openMemoryPhoto({src:photo.image,text:photo.text}));
+      }
+
+      const caption=document.createElement("figcaption");
+      caption.className="month-card-caption";
+      caption.textContent=photo.caption||"";
+
+      figure.append(button,caption);
+      photoList.appendChild(figure);
+    });
+
+    card.appendChild(photoList);
+    slide.appendChild(card);
+    monthTrack.appendChild(slide);
+  });
+
+  updateMonthSlider();
+}
+
+function updateMonthSlider(){
+  monthTrack.style.transform=`translateX(-${currentMonthSlide*100}%)`;
+  monthPrev.classList.toggle('hidden', currentMonthSlide<=0);
+  monthNext.classList.toggle('hidden', currentMonthSlide>=currentMonthSlides.length-1);
+}
+
+monthPrev.addEventListener('click',()=>{
+  if(currentMonthSlide<=0) return;
+  currentMonthSlide--;
+  playOne(sounds.orbClick,.26,true);
+  updateMonthSlider();
+});
+
+monthNext.addEventListener('click',()=>{
+  if(currentMonthSlide>=currentMonthSlides.length-1) return;
+  currentMonthSlide++;
+  playOne(sounds.orbClick,.26,true);
+  updateMonthSlider();
+});
+
+window.addEventListener('resize',updateMonthSlider);
 
 function openMonthPage(key){
   const data=monthData[key];
   if(!data) return;
+  if(isMonthLocked(key)){
+    showLockedNotice();
+    return;
+  }
+
+  const orderIndex=MONTH_ORDER.indexOf(key);
+  if(orderIndex===monthSeenCount&&monthSeenCount<MONTH_ORDER.length){
+    monthSeenCount++;
+    writeProgress("anniversary_month_seen_v15",monthSeenCount);
+    updateMonthLocks();
+  }
 
   monthIndex.textContent=data.index;
   monthTitle.textContent=data.title;
   monthTitle.dataset.text=data.title;
+  renderMonthSlides(key);
 
   orbitScreen.classList.add('hidden-screen');
   monthPage.classList.remove('hidden-screen');
@@ -1018,6 +1361,7 @@ $('#backToOrbit').addEventListener('click',()=>{
   monthPage.scrollTop=0;
   monthPage.classList.add('hidden-screen');
   orbitScreen.classList.remove('hidden-screen');
+  updateMonthLocks();
   playOne(sounds.orbClick,.35,true);
 
   if(audioState.enabled){
