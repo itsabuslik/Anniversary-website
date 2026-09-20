@@ -132,7 +132,7 @@ const monthStoryData={
   }
 
   ,may:{
-    bg:"photos/may_bg.jpg",
+    bg:"photos/may_bg.jpg?v=25",
     sections:[
       {
         date:"1. května",
@@ -195,6 +195,64 @@ const monthStoryData={
             image:"photos/may_08.jpg",
             caption:"click on it",
             text:""
+          }
+        ]
+      }
+    ]
+  }
+
+  ,june:{
+    sections:[
+      {
+        date:"6-7. června",
+        title:"vic pít miň se učit",
+        photos:[
+          {
+            image:"photos/june_01.jpg",
+            caption:"click on it",
+            text:"začali jsme travit mnohem víc času, koupili jsme vodku... hmm.. zajímavá doba, a to se ani neskončila škola"
+          },
+          {
+            image:"photos/june_02.jpg",
+            caption:"click on it",
+            text:"už na to máme i skleničky"
+          }
+        ]
+      },
+      {
+        date:"14. června",
+        title:"rokem víc rokem miň",
+        photos:[
+          {
+            image:"photos/june_03.jpg",
+            caption:"click on it",
+            text:"jsem dostal tolik dárků! Nikdy jsem tolik nedostával... každý pro mě znamená hodně!! To bylo velmi přijemné:3 halo kity"
+          },
+          {
+            image:"photos/june_04.jpg",
+            caption:"click on it",
+            text:"miluju tě, tvoje tričko"
+          },
+          {
+            image:"photos/june_05.jpg",
+            caption:"click on it",
+            text:"myvalíkkkk"
+          }
+        ]
+      },
+      {
+        date:"26. června",
+        title:"pokoření všech koupališť",
+        photos:[
+          {
+            image:"photos/june_06.jpg",
+            caption:"click on it",
+            text:"s mojí kráskou jsem chodil po koupališti a chlubil jsem se jí :3 začatek naších topenických čínů"
+          },
+          {
+            image:"photos/june_07.jpg",
+            caption:"click on it",
+            text:"miluju tuhle fotku promiň"
           }
         ]
       }
@@ -706,6 +764,7 @@ function openMemoryPhoto(data){
   }else{
     memoryVideoLarge.pause();
     memoryVideoLarge.removeAttribute('src');
+    memoryVideoLarge.load();
     memoryPhotoLarge.src=data.src;
   }
 
@@ -719,6 +778,7 @@ function openMemoryPhoto(data){
 function closeMemoryPhoto(){
   memoryVideoLarge.pause();
   memoryVideoLarge.removeAttribute('src');
+  memoryVideoLarge.load();
   memoryPhotoDialog?.classList.remove('video-mode');
   memoryPhotoOverlay.classList.add('hidden');
   memoryPhotoOverlay.setAttribute('aria-hidden','true');

@@ -817,3 +817,17 @@ body.memory-overlay-open{overflow:hidden!important}
   padding:46px 22px 20px;
   background:linear-gradient(to top,rgba(0,0,0,.92) 0%,rgba(0,0,0,.72) 62%,rgba(0,0,0,0) 100%);
 }
+
+
+/* V25: media overlay isolation.
+   .memory-photo-large is declared after .hidden in this stylesheet, so without this
+   more-specific rule a hidden video could still render behind photo text. */
+.memory-photo-dialog .memory-photo-large.hidden{
+  display:none !important;
+}
+.memory-photo-dialog:not(.video-mode) #memoryVideoLarge{
+  display:none !important;
+}
+.memory-photo-dialog.video-mode #memoryPhotoLarge{
+  display:none !important;
+}
