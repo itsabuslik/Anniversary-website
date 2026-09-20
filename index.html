@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
   <meta name="theme-color" content="#040607">
   <title>6 Months</title>
-  <link rel="stylesheet" href="styles.css?v=25">
+  <link rel="stylesheet" href="styles.css?v=31">
 </head>
 <body>
 
@@ -217,6 +217,21 @@
 
       <div id="monthBackground" class="month-background hidden" aria-hidden="true"></div>
 
+
+
+  <div id="septemberAsciiLayer" class="september-ascii-layer" aria-hidden="true"></div>
+  <div class="september-aura september-aura-a" aria-hidden="true"></div>
+  <div class="september-aura september-aura-b" aria-hidden="true"></div>
+
+  <div id="septemberIntroOverlay" class="september-intro-overlay hidden" aria-hidden="true">
+    <div class="september-intro-photo-wrap">
+      <img id="septemberIntroPhoto" class="september-intro-photo" src="" alt="">
+      <div class="september-intro-flash"></div>
+      <div id="septemberIntroAscii" class="september-intro-ascii" aria-hidden="true"></div>
+    </div>
+    <div id="septemberIntroTitle" class="september-intro-title">Tady jsme</div>
+  </div>
+
       <div class="month-carousel">
         <button id="monthPrev" class="month-nav month-nav-left hidden" type="button" aria-label="Previous section">←</button>
         <div class="month-viewport">
@@ -224,12 +239,99 @@
         </div>
         <button id="monthNext" class="month-nav month-nav-right hidden" type="button" aria-label="Next section">→</button>
       </div>
+
+      <section id="septemberEpilogue" class="september-epilogue hidden" aria-label="September ending">
+        <div id="septemberTicker" class="september-ticker">
+          <div class="september-ticker-track" aria-hidden="true">
+            <span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
+            <span>//</span>
+            <span>Tady jsme. Ale to je jenom začátek našeho dlouhého cestování a putování drahou, jméno které je život.</span>
+            <span>//</span>
+          </div>
+        </div>
+
+        <div class="september-ending-copy">
+          <p>Tady jsem chtěl jenom vzpomenout na 6 pěkných měsíců, co jsme strávili spolu. Od prvních konverzací do dnešního dne. Děkuju ti za to. Těším se stravit s tebou život v radosti a neštěstí, zvládnout jakékoliv překážky a sladce sdílet každý okamžik. Já vím, že to zvladneme. Miluju tě nejvíc na světě! :3</p>
+        </div>
+
+        <div class="september-shop-gate">
+          <div class="autumn-leaf leaf-a" aria-hidden="true"></div>
+          <div class="autumn-leaf leaf-b" aria-hidden="true"></div>
+          <div class="autumn-leaf leaf-c" aria-hidden="true"></div>
+          <button id="openGiftShop" class="gift-shop-button" type="button">
+            <span class="gift-shop-button-small">06 / 06</span>
+            <span class="gift-shop-button-title">GIFT SHOP</span>
+            <span class="gift-shop-button-arrow">→</span>
+          </button>
+        </div>
+      </section>
     </main>
   </div>
 </section>
 
+
+<section id="giftShop" class="gift-shop hidden-screen" aria-hidden="true">
+  <div class="gift-shop-noise" aria-hidden="true"></div>
+  <div class="gift-shop-glow gift-shop-glow-a" aria-hidden="true"></div>
+  <div class="gift-shop-glow gift-shop-glow-b" aria-hidden="true"></div>
+
+  <header class="gift-shop-header">
+    <button id="closeGiftShop" class="gift-shop-back" type="button">← SEPTEMBER</button>
+    <div class="gift-shop-sign">GIFT SHOP</div>
+    <div class="gift-shop-kiss-mini">KISS CURRENCY</div>
+  </header>
+
+  <main class="gift-shop-room">
+    <div class="gift-shop-awning" aria-hidden="true">
+      <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+    </div>
+
+    <section class="gift-shop-shelf" aria-label="Gift shelf">
+      <button class="gift-item" type="button" data-price="1">
+        <span class="gift-box gift-box-a" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 01</span>
+        <span class="gift-item-price">1 KISS</span>
+      </button>
+      <button class="gift-item" type="button" data-price="2">
+        <span class="gift-box gift-box-b" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 02</span>
+        <span class="gift-item-price">2 KISSES</span>
+      </button>
+      <button class="gift-item" type="button" data-price="3">
+        <span class="gift-box gift-box-c" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 03</span>
+        <span class="gift-item-price">3 KISSES</span>
+      </button>
+      <button class="gift-item" type="button" data-price="5">
+        <span class="gift-box gift-box-d" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 04</span>
+        <span class="gift-item-price">5 KISSES</span>
+      </button>
+      <button class="gift-item" type="button" data-price="8">
+        <span class="gift-box gift-box-e" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 05</span>
+        <span class="gift-item-price">8 KISSES</span>
+      </button>
+      <button class="gift-item" type="button" data-price="13">
+        <span class="gift-box gift-box-f" aria-hidden="true"><i></i></span>
+        <span class="gift-item-name">GIFT 06</span>
+        <span class="gift-item-price">13 KISSES</span>
+      </button>
+    </section>
+
+    <section class="gift-shop-counter" aria-label="Shop counter">
+      <div class="counter-register">
+        <div class="counter-register-label">COUNTER</div>
+        <div id="giftShopTotal" class="counter-register-total">0 KISSES</div>
+      </div>
+      <button id="giftShopReset" class="counter-reset" type="button">RESET</button>
+      <div class="counter-stripes" aria-hidden="true"></div>
+    </section>
+  </main>
+</section>
+
 <div id="lockedNotice" class="locked-notice" role="status" aria-live="polite">ještě není čas</div>
 
-<script src="script.js?v=25"></script>
+<script src="script.js?v=31"></script>
 </body>
 </html>

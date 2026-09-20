@@ -56,7 +56,7 @@ const monthData={
   june:{index:"03",title:"JUNE"},
   july:{index:"04",title:"JULY"},
   august:{index:"05",title:"AUGUST"},
-  september:{index:"06",title:"SEPTEMBER"}
+  september:{index:"06",title:"TADY JSME"}
 };
 
 const monthStoryData={
@@ -410,6 +410,29 @@ const monthStoryData={
           }
         ]
       }
+    ]
+  }
+
+  ,september:{
+    mode:"stack",
+    introTitle:"Tady jsme",
+    blinkPhotos:[
+      "photos/september_01.jpg",
+      "photos/september_02.jpg",
+      "photos/september_03.jpg",
+      "photos/september_04.jpg",
+      "photos/september_05.jpg",
+      "photos/september_06.jpg",
+      "photos/september_07.jpg"
+    ],
+    sections:[
+      {date:"",title:"",photos:[{image:"photos/september_01.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_02.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_03.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_04.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_05.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_06.jpg",caption:"",text:""}]},
+      {date:"",title:"",photos:[{image:"photos/september_07.jpg",caption:"",text:""}]}
     ]
   }
 
@@ -1499,9 +1522,97 @@ const monthBackground=$('#monthBackground');
 const monthTrack=$('#monthTrack');
 const monthPrev=$('#monthPrev');
 const monthNext=$('#monthNext');
+const septemberIntroOverlay=$('#septemberIntroOverlay');
+const septemberIntroPhoto=$('#septemberIntroPhoto');
+const septemberIntroTitle=$('#septemberIntroTitle');
+const septemberAsciiLayer=$('#septemberAsciiLayer');
+const septemberIntroAscii=$('#septemberIntroAscii');
+const septemberEpilogue=$('#septemberEpilogue');
+const septemberTicker=$('#septemberTicker');
+const septemberEndingCopy=$('.september-ending-copy');
+const septemberShopGate=$('.september-shop-gate');
+const openGiftShopButton=$('#openGiftShop');
+const giftShop=$('#giftShop');
+const closeGiftShopButton=$('#closeGiftShop');
+const giftShopTotal=$('#giftShopTotal');
+const giftShopReset=$('#giftShopReset');
 let monthAtmosphereStarted=false;
 let currentMonthSlides=[];
 let currentMonthSlide=0;
+let currentMonthMode='carousel';
+let monthIntroToken=0;
+const SEPTEMBER_ASCII_POOL=["<>","//","\\","[]","{}","()","::",";;","++","--","==","~~","..","░▒","▒▓","▓░","/\\","\\/","|:|","0:0","^_^","*:*"];
+
+let septemberEndingObserver=null;
+
+function setSeptemberEpilogue(active){
+  if(!septemberEpilogue) return;
+  septemberEpilogue.classList.toggle('hidden',!active);
+  if(!active){
+    septemberTicker?.classList.remove('is-visible');
+    septemberEndingCopy?.classList.remove('is-visible');
+    septemberShopGate?.classList.remove('is-visible');
+    return;
+  }
+
+  if(!septemberEndingObserver && 'IntersectionObserver' in window){
+    septemberEndingObserver=new IntersectionObserver(entries=>{
+      for(const entry of entries){
+        if(!entry.isIntersecting) continue;
+        entry.target.classList.add('is-visible');
+      }
+    },{root:monthPage,threshold:.16,rootMargin:'0px 0px -8% 0px'});
+  }
+
+  if(septemberEndingObserver){
+    [septemberTicker,septemberEndingCopy,septemberShopGate].filter(Boolean).forEach(el=>septemberEndingObserver.observe(el));
+  }else{
+    septemberTicker?.classList.add('is-visible');
+    septemberEndingCopy?.classList.add('is-visible');
+    septemberShopGate?.classList.add('is-visible');
+  }
+}
+
+function updateGiftShopTotal(){
+  if(!giftShopTotal) return;
+  const total=$$('.gift-item.selected',giftShop).reduce((sum,item)=>sum+(Number(item.dataset.price)||0),0);
+  giftShopTotal.textContent=`${total} ${total===1?'KISS':'KISSES'}`;
+}
+
+function resetGiftShop(){
+  $$('.gift-item',giftShop).forEach(item=>item.classList.remove('selected'));
+  updateGiftShopTotal();
+}
+
+function openGiftShop(){
+  if(!giftShop) return;
+  giftShop.classList.remove('hidden-screen');
+  giftShop.setAttribute('aria-hidden','false');
+  giftShop.scrollTop=0;
+  playOne(sounds.orbClick,.28,true);
+}
+
+function closeGiftShop(){
+  if(!giftShop) return;
+  giftShop.classList.add('hidden-screen');
+  giftShop.setAttribute('aria-hidden','true');
+  playOne(sounds.orbClick,.22,true);
+}
+
+openGiftShopButton?.addEventListener('click',openGiftShop);
+closeGiftShopButton?.addEventListener('click',closeGiftShop);
+giftShopReset?.addEventListener('click',resetGiftShop);
+$$('.gift-item',giftShop).forEach(item=>{
+  item.addEventListener('click',()=>{
+    item.classList.toggle('selected');
+    updateGiftShopTotal();
+    playOne(sounds.orbClick,.18,true);
+  });
+});
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape' && giftShop && !giftShop.classList.contains('hidden-screen')) closeGiftShop();
+});
 
 function renderMonthSlides(key){
   const story=monthStoryData[key];
@@ -1511,9 +1622,13 @@ function renderMonthSlides(key){
     {date:"",title:"",photos:[]}
   ];
   currentMonthSlide=0;
+  currentMonthMode=story?.mode==='stack'?'stack':'carousel';
 
   monthTrack.innerHTML="";
-  if(story?.bg){
+  monthTrack.classList.toggle('is-stack',currentMonthMode==='stack');
+  monthPage.classList.toggle('month-page-september',key==='september');
+
+  if(story?.bg && currentMonthMode!=='stack'){
     monthBackground.innerHTML=`<img src="${story.bg}" alt="">`;
     monthBackground.classList.remove("hidden");
   }else{
@@ -1523,17 +1638,17 @@ function renderMonthSlides(key){
 
   currentMonthSlides.forEach((section,index)=>{
     const slide=document.createElement("article");
-    slide.className="month-slide";
+    slide.className=`month-slide${currentMonthMode==='stack'?' month-slide-stack':''}`;
 
     const card=document.createElement("div");
-    card.className="month-card";
+    card.className=`month-card${currentMonthMode==='stack'?' month-card-stack':''}`;
 
     const meta=document.createElement("div");
     meta.className="month-card-meta";
 
     const date=document.createElement("span");
     date.className="month-card-date";
-    date.textContent=section.date||"";
+    date.textContent=section.date||(currentMonthMode==='stack'?'fragment':'');
 
     const count=document.createElement("span");
     count.className="month-card-count";
@@ -1558,11 +1673,11 @@ function renderMonthSlides(key){
         p.textContent=paragraph;
         copy.appendChild(p);
       });
-      card.appendChild(copy);
+      if(copy.childElementCount) card.appendChild(copy);
     }
 
     const photoList=document.createElement("div");
-    photoList.className="month-section-photos";
+    photoList.className=`month-section-photos${currentMonthMode==='stack'?' month-section-photos-stack':''}`;
 
     (section.photos||[]).forEach(photo=>{
       const figure=document.createElement("figure");
@@ -1585,6 +1700,7 @@ function renderMonthSlides(key){
         const img=document.createElement("img");
         img.src=photo.image;
         img.alt="";
+        if(currentMonthMode==='stack') img.classList.add('is-tall');
         button.appendChild(img);
         button.addEventListener("click",()=>openMemoryPhoto({src:photo.image,text:photo.text}));
       }
@@ -1608,9 +1724,95 @@ function renderMonthSlides(key){
 }
 
 function updateMonthSlider(){
+  if(currentMonthMode==='stack'){
+    monthTrack.style.transform='none';
+    monthPrev.classList.add('hidden');
+    monthNext.classList.add('hidden');
+    return;
+  }
   monthTrack.style.transform=`translateX(-${currentMonthSlide*100}%)`;
   monthPrev.classList.toggle('hidden', currentMonthSlide<=0);
   monthNext.classList.toggle('hidden', currentMonthSlide>=currentMonthSlides.length-1);
+}
+
+function buildSeptemberAscii(target=septemberAsciiLayer,count=18){
+  if(!target) return;
+  target.innerHTML='';
+  const width=Math.max(target.clientWidth||window.innerWidth,320);
+  const height=Math.max(target.clientHeight||window.innerHeight,320);
+  for(let i=0;i<count;i++){
+    const node=document.createElement('span');
+    const raw=SEPTEMBER_ASCII_POOL[(Math.random()*SEPTEMBER_ASCII_POOL.length)|0];
+    const extra=(Math.random()>.5?SEPTEMBER_ASCII_POOL[(Math.random()*SEPTEMBER_ASCII_POOL.length)|0]:'');
+    node.textContent=raw+extra;
+    node.style.left=`${Math.random()*92+2}%`;
+    node.style.top=`${Math.random()*92+2}%`;
+    node.style.opacity=(Math.random()*.32+.08).toFixed(2);
+    node.style.fontSize=`${Math.random()*20+10}px`;
+    node.style.letterSpacing=`${Math.random()*4+1}px`;
+    node.style.transform=`translate(-50%,-50%) rotate(${Math.random()*80-40}deg)`;
+    node.style.animationDelay=`-${Math.random()*8}s`;
+    node.style.animationDuration=`${Math.random()*12+10}s`;
+    if(Math.random()>.68) node.classList.add('is-blur');
+    if(Math.random()>.75) node.classList.add('is-pink');
+    if(Math.random()>.84) node.classList.add('is-gold');
+    target.appendChild(node);
+  }
+}
+
+function hideSeptemberIntro(immediate=false){
+  if(!septemberIntroOverlay) return;
+  septemberIntroOverlay.classList.remove('show','fade-out','flash');
+  septemberIntroTitle.classList.remove('show');
+  septemberIntroPhoto.classList.remove('show');
+  septemberIntroOverlay.classList.add('hidden');
+  septemberIntroOverlay.setAttribute('aria-hidden','true');
+  if(immediate) septemberIntroPhoto.removeAttribute('src');
+  if(immediate && septemberIntroAscii) septemberIntroAscii.innerHTML='';
+}
+
+async function runSeptemberIntro(story){
+  if(!story?.blinkPhotos?.length || !septemberIntroOverlay) return;
+  const token=++monthIntroToken;
+  const sequence=[1000,800,600,500,400,300,220,160,120,100,90,90,90,90,90];
+  buildSeptemberAscii(septemberIntroAscii,22);
+  const photos=story.blinkPhotos.slice();
+  let last='';
+
+  septemberIntroTitle.textContent=story.introTitle||'Tady jsme';
+  septemberIntroOverlay.classList.remove('hidden','fade-out','flash');
+  septemberIntroOverlay.classList.add('show');
+  septemberIntroOverlay.setAttribute('aria-hidden','false');
+  septemberIntroTitle.classList.remove('show');
+
+  for(const delay of sequence){
+    if(token!==monthIntroToken || monthPage.classList.contains('hidden-screen') || monthPage.dataset.month!=='september') return hideSeptemberIntro(true);
+    let next=photos[Math.floor(Math.random()*photos.length)];
+    if(photos.length>1 && next===last){
+      let safety=0;
+      while(next===last && safety<8){
+        next=photos[Math.floor(Math.random()*photos.length)];
+        safety++;
+      }
+    }
+    last=next;
+    septemberIntroPhoto.src=next;
+    septemberIntroPhoto.classList.remove('show');
+    void septemberIntroPhoto.offsetWidth;
+    septemberIntroPhoto.classList.add('show');
+    septemberIntroOverlay.classList.add('flash');
+    setTimeout(()=>septemberIntroOverlay.classList.remove('flash'),80);
+    await sleep(delay);
+  }
+
+  if(token!==monthIntroToken || monthPage.dataset.month!=='september') return hideSeptemberIntro(true);
+  septemberIntroTitle.classList.add('show');
+  await sleep(1250);
+  if(token!==monthIntroToken || monthPage.dataset.month!=='september') return hideSeptemberIntro(true);
+  septemberIntroOverlay.classList.add('fade-out');
+  await sleep(620);
+  if(token!==monthIntroToken) return;
+  hideSeptemberIntro(true);
 }
 
 monthPrev.addEventListener('click',()=>{
@@ -1629,7 +1831,7 @@ monthNext.addEventListener('click',()=>{
 
 window.addEventListener('resize',updateMonthSlider);
 
-function openMonthPage(key){
+async function openMonthPage(key){
   const data=monthData[key];
   if(!data) return;
   if(isMonthLocked(key)){
@@ -1643,6 +1845,12 @@ function openMonthPage(key){
     writeProgress("anniversary_month_seen_v15",monthSeenCount);
     updateMonthLocks();
   }
+
+  monthIntroToken++;
+  hideSeptemberIntro(true);
+  monthPage.dataset.month=key;
+  monthPage.classList.toggle('month-page-september',key==='september');
+  setSeptemberEpilogue(key==='september');
 
   monthIndex.textContent=data.index;
   monthTitle.textContent=data.title;
@@ -1663,9 +1871,22 @@ function openMonthPage(key){
     startAtmosphere($('#monthCanvas'),'month');
     monthAtmosphereStarted=true;
   }
+
+  if(key==='september'){
+    buildSeptemberAscii(septemberAsciiLayer,18);
+    await sleep(60);
+    runSeptemberIntro(monthStoryData[key]);
+  }else if(septemberAsciiLayer){
+    septemberAsciiLayer.innerHTML='';
+  }
 }
 
 $('#backToOrbit').addEventListener('click',()=>{
+  monthIntroToken++;
+  hideSeptemberIntro(true);
+  if(septemberAsciiLayer) septemberAsciiLayer.innerHTML='';
+  setSeptemberEpilogue(false);
+  if(giftShop && !giftShop.classList.contains('hidden-screen')) closeGiftShop();
   monthPage.scrollTop=0;
   monthPage.classList.add('hidden-screen');
   orbitScreen.classList.remove('hidden-screen');
